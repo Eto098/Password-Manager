@@ -9,19 +9,33 @@
     <link rel="stylesheet" href="./css/show-password-toggle.css">
     <title>Password Manager</title>
   </head>
-  <body style="background-image: url('./media/bg.jpg');">
+
+  <body>
 
       <div id="login">
 
+<!--
           <div class="input-group">
+          <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
 
-              <input type="password" id="password" class="form-control rounded-right" required autofocus>
-              <button id="toggle-password" type="button" class="d-none" spellcheck="false" autocorrect="off" autocapitalize="off"
+          </div>
+
+-->
+
+
+
+    <div class="mb-3">
+          <!--<label for="formGroupExampleInput" class="form-label">Example label</label>-->
+
+          <div class="input-group">
+              <input type="password" id="password" class="form-control  pass" spellcheck="false" autocorrect="off" autocapitalize="off" required autofocus>
+              <button id="toggle-password" type="button" class="d-none"
                 aria-label="Show password as plain text. Warning: this will display your password on the screen." >
               </button>
+          </div>
 
+    </div>
 
-        </div>
 
 
       </div>

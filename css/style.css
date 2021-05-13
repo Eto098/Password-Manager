@@ -1,11 +1,14 @@
-
-body {
-  font-family: Arial, Helvetica, sans-serif;
-  height: 100%;
-}
-
 html {
     height: 100%;
+    background-color: #212529;
+
+}
+
+body {
+
+    color: #DEE2E6 !important;
+    font-family: Arial, Helvetica, sans-serif;
+
 }
 
 ul{
@@ -70,10 +73,16 @@ div#login{
     left: 50%;
     transform: translate(-50%, -50%);
 
-
 }
 
+
 input.pass{
-       background-color:transparent !important;
+        color: #DEE2E6 !important;
+        background-color: #343A40 !important;
+       /*background-color:transparent !important;*/
        border:none !important;
+}
+
+input-group:active {
+    border-color: red;
 }

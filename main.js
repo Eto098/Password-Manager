@@ -2,6 +2,7 @@ const { app, BrowserWindow } = require('electron')
 
 function createWindow () {
   const win = new BrowserWindow({
+      frame: false,
     width: 1024,
     height: 720,
     webPreferences: {
