@@ -1,4 +1,4 @@
-#password Manager
+# Password Manager
 
 ```
 npm install
@@ -14,6 +14,7 @@ npm start
 ```
 
 ```html
+<body>
 <script src="./js/bootstrap.min.js"></script>
 <script src="./js/popper.min.js"></script>
 </body>
