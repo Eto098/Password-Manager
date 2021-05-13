@@ -1,9 +1,23 @@
-inside head >
-<link rel="stylesheet" href="./css/bootstrap.min.css">
+#password Manager
 
-before body >
+```
+npm install
+npm start
+```
+
+### Changes
+
+```html
+<head>
+<link rel="stylesheet" href="./css/bootstrap.min.css">
+</head>
+```
+
+```html
 <script src="./js/bootstrap.min.js"></script>
 <script src="./js/popper.min.js"></script>
+</body>
+```
 
 delete >
 //# sourceMappingURL=bootstrap.bundle.min.js.map
@@ -17,4 +31,9 @@ delete >
 //# sourceMappingURL=bootstrap.min.js.map
 from > bootstrap.min.js
 
-index.js > contextIsolation: true
+main.js >
+```javascript
+webPreferences: {
+  contextIsolation: true
+}
+```
