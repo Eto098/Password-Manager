@@ -62,3 +62,18 @@ section::after {
     height: auto;
   }
 }
+
+/* CUSTOM */
+div#login{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+
+}
+
+input.pass{
+       background-color:transparent !important;
+       border:none !important;
+}
