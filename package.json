@@ -1,0 +1,24 @@
+{
+  "name": "passwordmanager",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Eto098/passwordmanager.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Eto098/passwordmanager/issues"
+  },
+  "homepage": "https://github.com/Eto098/passwordmanager#readme",
+  "dependencies": {
+    "@journeyapps/sqlcipher": "^5.2.0",
+    "electron": "^12.0.7"
+  }
+}
