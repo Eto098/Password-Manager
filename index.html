@@ -8,33 +8,34 @@
     <link rel="stylesheet" href="./css/bootstrap.min.css">
     <link rel="stylesheet" href="./css/show-password-toggle.css">
     <title>Password Manager</title>
-  </head>
-
   <body>
 
       <div id="login">
 
-<!--
-          <div class="input-group">
-          <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+            <h1 style="text-align: center;">VAULTEM</h1>
 
-          </div>
+            <hr>
 
--->
+            <div class="mb-3">
+
+                <label class="custom-file-upload">
+                    <input type="file" id="file" name="file" class="file" />
+                </label>
 
 
+                  <div class="input-group">
+                      <input type="password" id="password" class="shadow-none form-control  pass" spellcheck="false" autocorrect="off" autocapitalize="off" required autofocus>
+                      <button id="toggle-password" type="button" class="d-none"
+                        aria-label="Show password as plain text. Warning: this will display your password on the screen." >
+                      </button>
+                  </div>
 
-    <div class="mb-3">
-          <!--<label for="formGroupExampleInput" class="form-label">Example label</label>-->
+            </div>
 
-          <div class="input-group">
-              <input type="password" id="password" class="shadow-none form-control  pass" spellcheck="false" autocorrect="off" autocapitalize="off" required autofocus>
-              <button id="toggle-password" type="button" class="d-none"
-                aria-label="Show password as plain text. Warning: this will display your password on the screen." >
-              </button>
-          </div>
+            <hr>
 
-    </div>
+            <br><br><br><br>
+            <a href="page.html">passwords</a>
 
 
 
