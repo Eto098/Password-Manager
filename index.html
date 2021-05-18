@@ -12,17 +12,28 @@
 
       <div id="login">
 
-            <h1 style="text-align: center;">VAULTEM</h1>
+            <!-- <h1 style="text-align: center;">PASSWORD MANAGER</h1>-->
 
-            <hr>
+            <!--<p class="logo"><img src="./media/privacy.png" alt="password"></p>-->
 
-            <div class="mb-3">
 
-                <label class="custom-file-upload">
+             <div class="mb-3">
+
+                <!-- <label class="custom-file-upload">
                     <input type="file" id="file" name="file" class="file" />
-                </label>
+                </label> -->
 
+                <!--<div class="fileUpload btn btn-dark">-->
+                <div class="fileUpload image-upload">
+                    <p class="logo"><label for="uploadBtn">
+                        <img src="./media/privacy.png"/>
+                    </label></p>
+                    <input id="uploadBtn" type="file" class="upload" />
+                </div>
 
+                <input id="uploadFile" class="upload" placeholder="No database selected." disabled="disabled" />
+
+                <br>
                   <div class="input-group">
                       <input type="password" id="password" class="shadow-none form-control  pass" spellcheck="false" autocorrect="off" autocapitalize="off" required autofocus>
                       <button id="toggle-password" type="button" class="d-none"
@@ -32,15 +43,14 @@
 
             </div>
 
-            <hr>
 
-            <br><br><br><br>
-            <a href="page.html">passwords</a>
+
+            <!--<a href="page.html">passwords</a>-->
 
 
 
       </div>
-
+   <script src="./js/file-upload.js"></script>
    <script src="./js/show-password-toggle.js"></script>
    <script src="./js/bootstrap.min.js"></script>
    <script src="./js/popper.min.js"></script>
