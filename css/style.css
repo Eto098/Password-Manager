@@ -9,7 +9,6 @@ html {
 
 body {
     color: #DEE2E6 !important;
-    font-family: code;
 }
 
 div#a {
@@ -48,7 +47,8 @@ input.pass{
     color: #DEE2E6 !important;
     background-color: #343A40 !important;
     border:none !important;
-    width: 20em !important;
+    width: 25em !important;
+    font-family: code;
 }
 
 
@@ -73,7 +73,7 @@ input.pass{
     cursor: pointer;
     opacity: 0;
     filter: alpha(opacity=0);
-
+    font-size: 0.5em;
 }
 
 .upload {
@@ -95,4 +95,11 @@ input.pass{
 
 .test {
     background-image: url('./../media/privacy.svg');
+}
+
+button.login {
+    display: inline-block;
+    text-decoration: none;
+    width: 40%;
+    margin: 1em;
 }
