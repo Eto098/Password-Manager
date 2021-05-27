@@ -1,28 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-</head>
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  </head>
 
-<body>
+  <body>
 
-<input type="text" id="dbName" placeholder="Enter DB name"/>
+    <input type="text" id="dbName" placeholder="Enter DB name"/>
+    <input type="text" id="dbPw" placeholder="Enter DB password"/>
+    <button onclick="addDbBtn()">
+      Add Database
+    </button>
 
-<input type="text" id="accountID" placeholder="Enter your ID"/>
+    <br>
 
-<input type="text" id="accountPw" placeholder="Enter your password"/>
+    <input type="text" id="dbNameAcc" placeholder="Enter DB name"/>
+    <input type="text" id="dbPwAcc" placeholder="Enter DB password"/>
+    <input type="text" id="accountID" placeholder="Enter your ID"/>
+    <input type="text" id="accountPw" placeholder="Enter your password"/>
+    <button onclick="addAccountBtn()">
+      Add Account
+    </button>
 
-<button onclick="addDbBtn()">Add Database</button>
+    <br>
 
-<button onclick="addAccountBtn()">
-  Add Account
-</button>
+    <input type="text" id="dbNameGet" placeholder="Enter DB name"/>
+    <input type="text" id="dbPwGet" placeholder="Enter DB password"/>
+    <input type="text" id="accountIDGet" placeholder="Enter your ID"/>
+    <button onclick="getAccountBtn()">
+      Get Account
+    </button>
 
-<button onclick="getAccountBtn()">
-  Get Account
-</button>
+    <br>
 
-</body>
-<script src="database.js"></script>
+    <input type="text" id="dbNameDelete" placeholder="Enter DB name"/>
+    <input type="text" id="dbPwDelete" placeholder="Enter DB password"/>
+    <input type="text" id="accountIDDelete" placeholder="Enter your ID"/>
+    <button onclick="deleteAccountBtn()">
+      Delete Account
+    </button>
+
+  </body>
+  <script src="database.js"></script>
 </html>

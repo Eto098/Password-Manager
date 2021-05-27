@@ -1,39 +1,49 @@
 const sqlite3 = require('@journeyapps/sqlcipher').verbose();
 const crypto = require('crypto');
+const bcrypt = require('bcrypt');
 
 const secretKey = 'thsadklfjdsaklnvsdlayasdtalkgsad';
+const saltRounds = 10;
 
 function addDbBtn(){
-    addDb(document.getElementById('dbName').value);
+    addDb(document.getElementById('dbName').value,
+            document.getElementById('dbPw').value);
 }
 function addAccountBtn(){
     const newPw = encryptPw(document.getElementById('accountPw').value);
-    addAccount(document.getElementById('dbName').value,
-        document.getElementById('accountID').value,
-        newPw);
+    addAccount(document.getElementById('dbNameAcc').value,
+                document.getElementById('dbPwAcc').value,
+                document.getElementById('accountID').value,
+                newPw);
 }
 function getAccountBtn(){
-    getAccount(document.getElementById('dbName').value,
-        'accounts',
-        document.getElementById('accountID').value);
+    getAccount(document.getElementById('dbNameGet').value,
+                document.getElementById('dbPwGet').value,
+                'accounts',
+                document.getElementById('accountIDGet').value);
 }
-
-function addDb(name){
-    console.log(name);
-    const db = new sqlite3.Database(name);
-    db.serialize(()=>{
+function deleteAccountBtn(){
+    deleteAccount(document.getElementById('dbNameDelete').value,
+                document.getElementById('dbPwDelete').value,
+                'accounts',
+                document.getElementById('accountIDDelete').value)
+}
+async function addDb(name, password){
+    const db = await new sqlite3.Database(name);
+    const hashed = await hashMasterPw("password1234");
+    await db.serialize(()=>{
         db.run("PRAGMA cipher_compatibility = 4");
-        db.run("PRAGMA key = 'mysecret'");
+        db.run("PRAGMA key = '" + hashed + "'");
         db.run('CREATE TABLE IF NOT EXISTS accounts(label TEXT, password TEXT, iv TEXT)');
     })
-    db.close();
+    console.log(hashed);
+    await db.close();
 }
-function addAccount(currDb, label, password){
-    console.log(currDb, label, password);
+function addAccount(currDb,mPassword, label, password){
     const db = new sqlite3.Database(currDb);
     db.serialize(()=>{
         db.run("PRAGMA cipher_compatibility = 4");
-        db.run("PRAGMA key = 'mysecret'");
+        db.run("PRAGMA key = " + mPassword);
         db.run('INSERT INTO accounts(label, password, iv) VALUES(?,?,?)', [label, password.password, password.iv], function(err) {
             if (err) {
                 return console.log(err.message);
@@ -43,12 +53,11 @@ function addAccount(currDb, label, password){
     });
     db.close();
 }
-function getAccount(currDb, currTable, name){
-    console.log(currDb, currTable, name);
+function getAccount(currDb, mPassword, currTable, name){
     const db = new sqlite3.Database(currDb);
     db.serialize(()=>{
         db.run("PRAGMA cipher_compatibility = 4");
-        db.run("PRAGMA key = 'mysecret'");
+        db.run("PRAGMA key = " + mPassword);
         db.all('SELECT * FROM ' + currTable + ' WHERE label = ?', name, function(err, result) {
             if (err) {
                 return console.log(err.message);
@@ -64,7 +73,21 @@ function getAccount(currDb, currTable, name){
     });
     db.close();
 }
-
+function deleteAccount(currDb, mPassword, currTable, name){
+    const db = new sqlite3.Database(currDb);
+    db.serialize(()=>{
+        db.run("PRAGMA cipher_compatibility = 4");
+        db.run("PRAGMA key = " + mPassword);
+        db.all('DELETE FROM ' + currTable + ' WHERE label = ?', name, function(err, result) {
+            if (err) {
+                return console.log(err.message);
+            }else{
+                console.log("DELETED");
+            }
+        });
+    });
+    db.close();
+}
 function encryptPw(password){
     const iv = Buffer.from(crypto.randomBytes(16));
     const cipher = crypto.createCipheriv('aes-256-ctr', Buffer.from(secretKey), iv);
@@ -76,20 +99,18 @@ function decryptPw(encryption){
     const decryptedPw = Buffer.concat([decipher.update(Buffer.from(encryption.password, 'hex')), decipher.final()]);
     return decryptedPw.toString();
 }
+async function hashMasterPw(plainPw){
+    return await bcrypt.hash(plainPw, saltRounds);
+}
 
-//addDb("deneme.sql");
 
-//const newPw1 = encryptPw('password1234');
-//addAccount("deneme.sql", "League of Legends", newPw1);
+/*async function aaa(){
+    const hashed = await hashMasterPw("password1234");
+    console.log(hashed);
+}
+aaa();
+hashMasterPw("password1234").then(r => console.log(r))*/
 
-//const newPw2 = encryptPw('sdagsdagsdafsa1234');
-//addAccount("deneme.sql", "GMail", newPw2);
 
-//const newPw3 = encryptPw('21423563426457245');
-//addAccount("deneme.sql", "Github", newPw3);
-
-//getAccount("deneme.sql", "accounts", "League of Legends");
-//getAccount("deneme.sql", "accounts", "Github");
-//getAccount("deneme.sql", "accounts", "GMail");
 
 
