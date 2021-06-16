@@ -21,4 +21,4 @@ app.on('ready', () => {
         protocol: 'file:',
         slashes: true
     }));
-})
+});

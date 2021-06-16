@@ -1,6 +1,7 @@
 const sqlite3 = require('@journeyapps/sqlcipher').verbose();
 const crypto = require('crypto');
-const bcrypt = require('bcrypt');
+//const {dialog} = require('electron').remote;
+const {basename} = require('path')
 
 const secretKey = 'thsadklfjdsaklnvsdlayasdtalkgsad';
 const saltRounds = 10;
@@ -8,6 +9,11 @@ const saltRounds = 10;
 function addDbBtn(){
     addDb(document.getElementById('dbName').value,
             document.getElementById('dbPw').value);
+}
+function addCategoryBtn(){
+    addCategory(document.getElementById('dbNameCategory').value,
+                document.getElementById('dbPwCategory').value,
+                document.getElementById('categoryID'));
 }
 function addAccountBtn(){
     const newPw = encryptPw(document.getElementById('accountPw').value);
@@ -30,18 +36,24 @@ function deleteAccountBtn(){
 }
 async function addDb(name, password){
     const db = await new sqlite3.Database(name);
-    const hashed = await hashMasterPw("password1234");
     await db.serialize(()=>{
         db.run("PRAGMA cipher_compatibility = 4");
-        db.run("PRAGMA key = '" + hashed + "'");
-        db.run('CREATE TABLE IF NOT EXISTS accounts(label TEXT, password TEXT, iv TEXT)');
+        db.run("PRAGMA key = '" + password + "'");
     })
-    console.log(hashed);
     await db.close();
 }
-function addAccount(currDb,mPassword, label, password){
-    const db = new sqlite3.Database(currDb);
-    db.serialize(()=>{
+async function addCategory(currDb, mPassword, category){
+    const db = await new sqlite3.Database(currDb);
+    await db.serialize(()=>{
+        db.run("PRAGMA cipher_compatibility = 4");
+        db.run("PRAGMA key = " + mPassword);
+        db.run('CREATE TABLE IF NOT EXISTS ? (label TEXT, password TEXT, iv TEXT)', category);
+    });
+    await db.close();
+}
+async function addAccount(currDb,mPassword, label, password){
+    const db = await new sqlite3.Database(currDb);
+    await db.serialize(()=>{
         db.run("PRAGMA cipher_compatibility = 4");
         db.run("PRAGMA key = " + mPassword);
         db.run('INSERT INTO accounts(label, password, iv) VALUES(?,?,?)', [label, password.password, password.iv], function(err) {
@@ -51,11 +63,11 @@ function addAccount(currDb,mPassword, label, password){
             console.log("New employee has been added");
         });
     });
-    db.close();
+    await db.close();
 }
-function getAccount(currDb, mPassword, currTable, name){
-    const db = new sqlite3.Database(currDb);
-    db.serialize(()=>{
+async function getAccount(currDb, mPassword, currTable, name){
+    const db = await new sqlite3.Database(currDb);
+    await db.serialize(()=>{
         db.run("PRAGMA cipher_compatibility = 4");
         db.run("PRAGMA key = " + mPassword);
         db.all('SELECT * FROM ' + currTable + ' WHERE label = ?', name, function(err, result) {
@@ -71,11 +83,11 @@ function getAccount(currDb, mPassword, currTable, name){
             }
         });
     });
-    db.close();
+    await db.close();
 }
-function deleteAccount(currDb, mPassword, currTable, name){
-    const db = new sqlite3.Database(currDb);
-    db.serialize(()=>{
+async function deleteAccount(currDb, mPassword, currTable, name){
+    const db = await new sqlite3.Database(currDb);
+    await db.serialize(()=>{
         db.run("PRAGMA cipher_compatibility = 4");
         db.run("PRAGMA key = " + mPassword);
         db.all('DELETE FROM ' + currTable + ' WHERE label = ?', name, function(err, result) {
@@ -86,8 +98,9 @@ function deleteAccount(currDb, mPassword, currTable, name){
             }
         });
     });
-    db.close();
+    await db.close();
 }
+
 function encryptPw(password){
     const iv = Buffer.from(crypto.randomBytes(16));
     const cipher = crypto.createCipheriv('aes-256-ctr', Buffer.from(secretKey), iv);
@@ -99,18 +112,6 @@ function decryptPw(encryption){
     const decryptedPw = Buffer.concat([decipher.update(Buffer.from(encryption.password, 'hex')), decipher.final()]);
     return decryptedPw.toString();
 }
-async function hashMasterPw(plainPw){
-    return await bcrypt.hash(plainPw, saltRounds);
-}
-
-
-/*async function aaa(){
-    const hashed = await hashMasterPw("password1234");
-    console.log(hashed);
-}
-aaa();
-hashMasterPw("password1234").then(r => console.log(r))*/
-
 
 
 
