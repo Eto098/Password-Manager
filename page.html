@@ -27,47 +27,38 @@
         </div>
 
 
+        <div class="modal fade" id="newCategory" tabindex="-1" aria-labelledby="newCategoryLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="newCategoryLabel">New Category</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <form>
+                  <div class="mb-3">
+                    <label for="recipient-name" class="col-form-label">Name:</label>
+                    <input type="text" class="form-control" id="recipient-name">
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Create Category</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
 
 
 
       </div>
 
       <div id="b">
-          <nav class="navbar navbar-light bg-light">
-            <div class="container-fluid">
-              <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-
-              </form>
-            </div>
-          </nav>
 
 
 
-          <button type="button" class="btn btn-dark bg-dark" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@add">Add New Item</button>
-
-          <div class="modal fade" id="newCategory" tabindex="-1" aria-labelledby="newCategoryLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="newCategoryLabel">New Category</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                  <form>
-                    <div class="mb-3">
-                      <label for="recipient-name" class="col-form-label">Name:</label>
-                      <input type="text" class="form-control" id="recipient-name">
-                    </div>
-                  </form>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary">Create Category</button>
-                </div>
-              </div>
-            </div>
-          </div>
 
 
           <div class="items">
@@ -76,29 +67,69 @@
               <a href="#" class="active" >Hotmail</a>
               <a href="#">Github</a>
               <a href="#">Gitlab</a>
+              <button type="button" class="btn btn-dark bg-dark items" data-bs-toggle="modal" data-bs-target="#newAccount" data-bs-whatever="@add">+</button>
         </div>
+
+        <div class="modal fade" id="newAccount" tabindex="-1" aria-labelledby="newAccountLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="newAccountLabel">New Category</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <form>
+                  <div class="mb-3">
+                    <label for="recipient-name" class="col-form-label">Name:</label>
+                    <input type="text" class="form-control" id="recipient-name">
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Create Category</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
 
       </div>
 
       <div id="content">
+
           <h1> Hotmail </h1>
           <br><br>
 
           <form>
         <div class="form-group row">
-          <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
+
+          <label for="inputEmail3" class="col-sm-2 col-form-label">Username</label>
           <div class="col-sm-10">
             <input type="email" class="form-control" id="inputEmail3" placeholder="Username">
           </div>
-        </div>
 
-        <div class="form-group row">
           <label for="inputPassword3" class="col-sm-2 col-form-label">Password</label>
           <div class="col-sm-10">
             <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
           </div>
-        </div>
 
+          <label for="inputUrl3" class="col-sm-2 col-form-label">Website</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="inputUrl3" placeholder="Website">
+          </div>
+
+          <label for="inputUrl3" class="col-sm-2 col-form-label">Modified</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="inputUrl3" placeholder="Modified" disabled>
+          </div>
+
+          <label for="inputUrl3" class="col-sm-2 col-form-label">Created</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="inputUrl3" placeholder="Created" disabled>
+          </div>
+
+        </div>
 
 
       </form>

@@ -27,17 +27,20 @@ div#a {
 div#b {
   height: 100vh;
   float: left;
-  width: 30%;
+  width: 20%;
   background: #343A40;
+  color: #21242B;
   padding: 0px;
+  border-right-color: 1px white;
 }
 
 div#content {
   height: 100vh;
   float: left;
-  padding: 20px;
-  width: 50%;
-  background: #343A40;
+  padding: 5em;
+  width: 60%;
+  color: #21242B;
+  background: #DEE2E6;
 }
 
 div#login{
@@ -169,6 +172,6 @@ div#page-logo {
 }
 
 .modal{
-    
+
     color: black;
 }
