@@ -122,7 +122,7 @@ async function addDb(name, password){
     await db.serialize(()=>{
         db.run("PRAGMA cipher_compatibility = 4");
         db.run("PRAGMA key = '" + password + "'");
-        db.run('CREATE TABLE IF NOT EXISTS accounts(label TEXT, username TEXT, password TEXT, iv TEXT, createDate DATE, lasEdited DATE)');
+        db.run('CREATE TABLE IF NOT EXISTS accounts(label TEXT NOT NULL, username TEXT, password TEXT, iv TEXT, createDate DATE, lastEdited DATE)');
     })
     await db.close();
 }

@@ -1,8 +1,18 @@
 const sqlite3 = require('@journeyapps/sqlcipher').verbose();
+const crypto = require('crypto');
+
+const secretKey = 'thsadklfjdsaklnvsdlayasdtalkgsad';
 let currTable = "accounts";
+
 listCategories();
+listAccounts();
 
-
+/**
+ * @desc lists all the table names inside the sqlite3 database into the HTML element with id of 'categories'
+ * @returns {Promise<void>}
+ * @example
+ * listCategories()
+ */
 async function listCategories(){
     const db = await new sqlite3.Database(localStorage.getItem("currDb"));
     await db.serialize(()=>{
@@ -23,7 +33,15 @@ async function listCategories(){
     });
     await db.close();
 }
+
+/**
+ * @desc lists all the tuple's 'label' attributes inside the currTable (variable table name) into the HTML element with id of 'accounts' and refreshes the related HTML element
+ * @returns {Promise<void>}
+ * @example
+ * listAccounts()
+ */
 async function listAccounts(){
+    document.getElementById("accounts").innerHTML = "";
     const db = await new sqlite3.Database(localStorage.getItem("currDb"));
     await db.serialize(()=>{
         db.run("PRAGMA cipher_compatibility = 4");
@@ -32,6 +50,7 @@ async function listAccounts(){
             if (err) {
                 return console.log(err.message);
             }else{
+                document.getElementById("accounts").innerHTML = "";
                 tuples.forEach((row) => {
                     const accountsElement = document.createElement('a');
                     accountsElement.type = "text";
@@ -46,6 +65,14 @@ async function listAccounts(){
     });
     await db.close();
 }
+
+/**
+ * @desc puts the information about tuple with the column name given as parameter into the HTML element with id of 'accountInfo'
+ * @returns {Promise<void>}
+ * @example
+ * getAccountInfo(exampleAttribute)
+ * @param label
+ */
 async function getAccountInfo(label){
     const db = await new sqlite3.Database(localStorage.getItem("currDb"));
     await db.serialize(()=>{
@@ -59,7 +86,7 @@ async function getAccountInfo(label){
                     document.getElementById("accountInfoHeader").innerText = row.label
                     document.getElementById("accountInfo").innerHTML =
                         "<div class='accountInfo'>" + row.label +
-                        "<br>" + row.password +
+                        "<br>" + decryptPw({iv: row.iv, password: row.password}) +
                         "</div>";
                 })
             }
@@ -67,6 +94,13 @@ async function getAccountInfo(label){
     });
     await db.close();
 }
+
+/**
+ * @desc adds a table with inputted name into sqlite3 database and refreshes the related HTML elements
+ * @returns {Promise<void>}
+ * @example
+ * addCategory()
+ */
 async function addCategory(){
     const category = document.getElementById("addTableName").value;
     const db = await new sqlite3.Database(localStorage.getItem("currDb"));
@@ -74,53 +108,87 @@ async function addCategory(){
         db.run("PRAGMA cipher_compatibility = 4");
         db.run("PRAGMA key = " + localStorage.getItem("pwd"));
         db.run('CREATE TABLE IF NOT EXISTS ' + category +
-            ' (label TEXT, username TEXT, password TEXT, iv TEXT, createDate DATE, lasEdited DATE)');
+            ' (label TEXT NOT NULL, username TEXT, password TEXT, iv TEXT, createDate DATE, lastEdited DATE)');
     });
     document.getElementById("myModal").style.display = "none";
     await db.close();
+    document.getElementById("accounts").innerHTML = "";
+    document.getElementById("accountInfoHeader").innerHTML = "";
+    document.getElementById("accountInfo").innerHTML = "";
+    document.getElementById("categories").innerHTML = "";
+    await listCategories();
 }
+
+/**
+ * @desc adds a tuple with inputted attributes into currTable (variable table name) database and refreshes the related HTML elements
+ * @returns {Promise<void>}
+ * @example
+ * addAccount()
+ */
 async function addAccount(){
-    label = document.getElementById("addAccName").value;
-    password = document.getElementById("addAccPwd").value;
-    iv = "sdgsdaghsda";
+    let label = document.getElementById("addAccName").value;
+    let password = document.getElementById("addAccPwd").value;
+    let username = document.getElementById("addAccUser").value;
+    const encryptedPw = encryptPw(password);
     const db = await new sqlite3.Database(localStorage.getItem("currDb"));
     await db.serialize(()=>{
         db.run("PRAGMA cipher_compatibility = 4");
         db.run("PRAGMA key = " + localStorage.getItem("pwd"));
-        db.run('INSERT INTO '+currTable+' (label, password) VALUES(?,?)',
-            [label, password], function(err) {
+        db.run('INSERT INTO '+currTable+' VALUES(?,?,?,?,date("now"),date("now"))',
+            [label, username, encryptedPw.password, encryptedPw.iv], function(err) {
             if (err) {
                 return console.log(err.message);
             }
-            console.log("New employee has been added");
         });
     });
     document.getElementById("myModal2").style.display = "none";
     await db.close();
+    listAccounts();
+    document.getElementById("accountInfoHeader").innerHTML = "";
+    document.getElementById("accountInfo").innerHTML = "";
 }
+
+/**
+ * @desc replaces a tuple's attributes with inputted new ones and refreshes the related HTML elements
+ * @returns {Promise<void>}
+ * @example
+ * editAccount()
+ */
 async function editAccount(){
-    label = document.getElementById("editAccName").value;
-    password = document.getElementById("editAccPwd").value;
-    console.log(label);
-    console.log(password);
-    console.log(document.getElementById("accountInfoHeader").innerText);
+    let label = document.getElementById("editAccName").value;
+    let password = document.getElementById("editAccPwd").value;
+    let username = document.getElementById("editAccUser").value;
+    const encryptedPw = encryptPw(password);
     const db = await new sqlite3.Database(localStorage.getItem("currDb"));
     await db.serialize(()=>{
         db.run("PRAGMA cipher_compatibility = 4");
         db.run("PRAGMA key = " + localStorage.getItem("pwd"));
-        db.run('UPDATE '+currTable+' SET label=?, password=? WHERE label=?',
-            [label, password, document.getElementById("accountInfoHeader").innerText],
+        db.run('UPDATE '+currTable+
+            ' SET label=?, username=?, password=?, iv=?, lastEdited=date("now") WHERE label=?',
+            [label, username, encryptedPw.password, encryptedPw.iv,
+                document.getElementById("accountInfoHeader").innerText],
             function(err) {
             if (err) {
                 return console.log(err.message);
             }
-            console.log("Employee has been update");
         });
     });
     document.getElementById("myModal3").style.display = "none";
     await db.close();
+    document.getElementById("accountInfo").innerHTML = "";
+    document.getElementById("accountInfoHeader").innerHTML = "";
+    await listAccounts();
+    await getAccountInfo(label);
 }
+
+/**
+ * @desc deletes the table with inputted name from sqlite3 database and refreshes the related HTML elements
+ * @returns {Promise<void>}
+ * @example
+ * deleteCategory()
+ */
 async function deleteCategory(){
+    document.getElementById("categories").innerHTML = "";
     const db = await new sqlite3.Database(localStorage.getItem("currDb"));
     await db.serialize(()=>{
         db.run("PRAGMA cipher_compatibility = 4");
@@ -130,12 +198,22 @@ async function deleteCategory(){
                 if (err) {
                     return console.log(err.message);
                 }
-                console.log("category deleted");
             });
     });
     currTable = "";
     await db.close();
+    await listCategories();
+    document.getElementById("accounts").innerHTML = "";
+    document.getElementById("accountInfoHeader").innerHTML = "";
+    document.getElementById("accountInfo").innerHTML = "";
 }
+
+/**
+ * @desc deletes a tuple with inputted label attribute from sqlite3 database and refreshes the related HTML elements
+ * @returns {Promise<void>}
+ * @example
+ * deleteAccount()
+ */
 async function deleteAccount(){
     const db = await new sqlite3.Database(localStorage.getItem("currDb"));
     await db.serialize(()=>{
@@ -147,13 +225,41 @@ async function deleteAccount(){
                 if (err) {
                     return console.log(err.message);
                 }
-                console.log("category deleted");
             });
     });
     currTable = "";
     await db.close();
+    await listAccounts();
+    document.getElementById("accountInfoHeader").innerHTML = "";
+    document.getElementById("accountInfo").innerHTML = "";
 }
 
+/**
+ * @desc encrypts given plain text by using aes-256-ctr algorithm
+ * @param password
+ * @returns {{password: string, iv: Buffer}}
+ * @example
+ * encryptPw(plainText)
+ */
+function encryptPw(password){
+    const iv = Buffer.from(crypto.randomBytes(16));
+    const cipher = crypto.createCipheriv('aes-256-ctr', Buffer.from(secretKey), iv);
+    const encryptedPw = Buffer.concat([cipher.update(password), cipher.final()]);
+    return {iv: iv, password: encryptedPw.toString('hex')};
+}
+
+/**
+ * @desc decrypts given encrypted password
+ * @param encryption
+ * @returns {string}
+ * @example
+ * decryptPw({password: encryptedTex, iv: iv})
+ */
+function decryptPw(encryption){
+    const decipher = crypto.createDecipheriv('aes-256-ctr', Buffer.from(secretKey), Buffer.from(encryption.iv, 'hex'));
+    const decryptedPw = Buffer.concat([decipher.update(Buffer.from(encryption.password, 'hex')), decipher.final()]);
+    return decryptedPw.toString();
+}
 
 
 

@@ -63,7 +63,7 @@
 <div>
     <div id="accountInfoHeader"></div>
     <div id="accountInfo"></div>
-    <button id="editAccountBtn">+</button>
+    <button id="editAccountBtn">/</button>
 </div>
 
 <!-- The Modal -->
@@ -85,6 +85,7 @@
     <div class="modal-content">
         <span class="close">&times;</span>
         <input id="addAccName" type="text" placeholder="Enter new account name"/>
+        <input id="addAccUser" type="text" placeholder="Enter new account username"/>
         <input id="addAccPwd" type="text" placeholder="Enter new account password"/>
         <button onclick="addAccount()">OK</button>
     </div>
@@ -98,6 +99,7 @@
     <div class="modal-content">
         <span class="close">&times;</span>
         <input id="editAccName" type="text" placeholder="Enter new account name"/>
+        <input id="editAccUser" type="text" placeholder="Enter new account username"/>
         <input id="editAccPwd" type="text" placeholder="Enter new account password"/>
         <button onclick="editAccount()">OK</button>
     </div>
