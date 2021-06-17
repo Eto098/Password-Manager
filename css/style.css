@@ -1,0 +1,181 @@
+@font-face {
+    font-family: "code";
+    src: url("../media/code.woff") format('woff');
+}
+
+html {
+    background-color: #212529;
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
+}
+
+body {
+    color: #DEE2E6 !important;
+}
+
+div#a {
+  float: left;
+  width: 20%;
+  height: 100vh;
+  background: #21242B;
+  padding: 0px;
+  color: white;
+}
+
+div#b {
+  height: 100vh;
+  float: left;
+  width: 20%;
+  background: #343A40;
+  color: #21242B;
+  padding: 0px;
+  border-right-color: 1px white;
+}
+
+div#content {
+  height: 100vh;
+  float: left;
+  padding: 5em;
+  width: 60%;
+  color: #21242B;
+  background: #DEE2E6;
+}
+
+div#login{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align:center;
+    display: block;
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
+}
+
+input.pass{
+    color: #DEE2E6 !important;
+    background-color: #343A40 !important;
+    border:none !important;
+    width: 25em !important;
+    font-family: code;
+}
+
+
+.fileUpload {
+    position: relative;
+    overflow: hidden;
+    /*margin: 10px;*/
+
+}
+
+.fileUpload::selection {
+    background-color: transparent;
+}
+
+.fileUpload input.upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    /*font-size: 20px;*/
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    font-size: 0.5em;
+}
+
+.upload {
+    all: initial;
+    all: unset;
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+.logo {
+    text-align:center;
+    display: block;
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
+}
+
+button.login {
+    display: inline-block;
+    text-decoration: none;
+    width: 40%;
+    margin: 1em;
+}
+
+
+/* Vertical Menu for Categories */
+.categories {
+  width: auto;
+}
+
+.categories a {
+  background-color: #212529;
+  color: #DEE2E6;
+  display: block;
+  padding: 12px;
+  text-decoration: none;
+}
+
+.categories a:hover {
+  color: black;
+  background-color: #ccc;
+}
+
+.categories a.active {
+  background-color: #DEE2E6;
+  color: black;
+}
+/* Vertical Menu for Categories END */
+
+/* Vertical Menu for items */
+.items {
+  width: auto;
+}
+
+.items a {
+  background-color: #343A40;
+  color: #DEE2E6;
+  display: block;
+  padding: 12px;
+  text-decoration: none;
+}
+
+.items a:hover {
+  color: black;
+  background-color: #ccc;
+}
+
+.items a.active {
+  background-color: #DEE2E6;
+  color: black;
+}
+/* Vertical Menu for items END */
+
+button.items {
+    background: #343A40 !important;
+    border: 1px #343A40;
+}
+
+
+div#page-logo {
+    display: flex;
+  justify-content: center;
+  padding: 2em;
+
+}
+
+.modal{
+
+    color: black;
+}

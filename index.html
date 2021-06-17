@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/show-password-toggle.css">
+    <title>Password Manager</title>
+  <body>
+
+      <div id="login">
+
+             <div class="mb-3">
+
+                <div class="fileUpload image-upload logo">
+                <label for="uploadBtn">
+                        <img src="./media/privacy.png"/>
+                    </label>
+                    <input id="uploadBtn" type="file" class="upload" />
+                </div>
+
+<br>
+
+<input id="uploadFile" class="upload" placeholder="Vault is not selected." disabled="disabled" />
+
+<br>
+
+                  <div class="input-group">
+                      <input type="password" id="password" class="shadow-none form-control  pass" spellcheck="false" autocorrect="off" autocapitalize="off" required autofocus>
+                      <button id="toggle-password" type="button" class="d-none"
+                        aria-label="Show password as plain text. Warning: this will display your password on the screen." >
+                      </button>
+                  </div>
+
+
+                    <button type="button" class="btn btn-light btn-sm login">Unlock Vault</button>
+                     <br><br><br><br>
+                      <button type="button" class="btn btn-outline-light btn-sm login">New Vault</button>
+
+            </div>
+
+      </div>
+   <script src="./js/file-upload.js"></script>
+   <script src="./js/show-password-toggle.js"></script>
+   <script src="./js/bootstrap.min.js"></script>
+   <script src="./js/popper.min.js"></script>
+   <script src="./js/login.js"></script>
+  </body>
+</html>
