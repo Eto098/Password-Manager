@@ -100,11 +100,13 @@ async function editAccount(){
     password = document.getElementById("editAccPwd").value;
     console.log(label);
     console.log(password);
+    console.log(document.getElementById("accountInfoHeader").innerText);
     const db = await new sqlite3.Database(localStorage.getItem("currDb"));
     await db.serialize(()=>{
         db.run("PRAGMA cipher_compatibility = 4");
         db.run("PRAGMA key = " + localStorage.getItem("pwd"));
-        db.run('UPDATE okul SET label="Github", password="123456789999" WHERE label="hotmail"',
+        db.run('UPDATE '+currTable+' SET label=?, password=? WHERE label=?',
+            [label, password, document.getElementById("accountInfoHeader").innerText],
             function(err) {
             if (err) {
                 return console.log(err.message);
@@ -115,7 +117,6 @@ async function editAccount(){
     document.getElementById("myModal3").style.display = "none";
     await db.close();
 }
-editAccount();
 // Get the modal
 const modal = document.getElementById("myModal");
 // Get the button that opens the modal
