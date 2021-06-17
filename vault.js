@@ -14,12 +14,12 @@ listAccounts();
  * listCategories()
  */
 async function listCategories(){
+    console.log(22);
     const db = await new sqlite3.Database(localStorage.getItem("currDb"));
     await db.serialize(()=>{
         db.run("PRAGMA cipher_compatibility = 4");
         db.run("PRAGMA key = " + localStorage.getItem("pwd"));
         db.each("select name from sqlite_master where type='table'", function (err, table) {
-
             const categoryElement = document.createElement('a');
             categoryElement.type = "text";
             categoryElement.innerHTML = "<div class='category'>"+table.name+"</div>"
@@ -111,12 +111,12 @@ async function addCategory(){
             ' (label TEXT NOT NULL, username TEXT, password TEXT, iv TEXT, createDate DATE, lastEdited DATE)');
     });
     document.getElementById("myModal").style.display = "none";
-    await db.close();
     document.getElementById("accounts").innerHTML = "";
     document.getElementById("accountInfoHeader").innerHTML = "";
     document.getElementById("accountInfo").innerHTML = "";
     document.getElementById("categories").innerHTML = "";
-    await listCategories();
+    await db.close();
+    setTimeout(listCategories(), 5000);
 }
 
 /**
@@ -177,8 +177,14 @@ async function editAccount(){
     await db.close();
     document.getElementById("accountInfo").innerHTML = "";
     document.getElementById("accountInfoHeader").innerHTML = "";
-    await listAccounts();
-    await getAccountInfo(label);
+    document.getElementById("accounts").innerHTML = "";
+    listAccounts().then(()=>{
+        listAccounts();
+    });
+    getAccountInfo(label).then(()=>{
+        getAccountInfo(label);
+    });
+
 }
 
 /**

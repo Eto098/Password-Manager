@@ -20,8 +20,8 @@ function browseBtn(){
             console.log(222);
         }
     });
-
 }
+
 function pwChanged(){
     if (localStorage.getItem("currDb") &&
         localStorage.getItem("currDb").endsWith(".sql") &&
@@ -115,6 +115,13 @@ function showPwBtn2(){
         pw.type="password"
     }
 }
+
+/**
+ * @desc creates a sqlite3 database file with given name and encrypts it with given password
+ * @param name
+ * @param password
+ * @returns {Promise<void>}
+ */
 async function addDb(name, password){
     console.log(name);
     console.log(password);
