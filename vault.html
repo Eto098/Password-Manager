@@ -3,9 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        /* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+        /* Modal Content */
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+        /* The Close Button */
+        .close {
+            color: #aaaaaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-<button onclick="aaa();">aaa</button>
+
+<div>
+    <div id="categoriesHeader">CATEGORIES</div>
+    <div id="categories"> </div>
+    <button id="addCategoryBtn">+</button>
+</div>
+<hr>
+<div>
+    <div id="accountsHeader">ACCOUNTS</div>
+    <div id="accounts"></div>
+    <button id="addAccountBtn">+</button>
+</div>
+<hr>
+<div>
+    <div id="accountInfoHeader"></div>
+    <div id="accountInfo"></div>
+    <button id="editAccountBtn">+</button>
+</div>
+
+
+<!-- The Modal -->
+<div id="myModal" class="modal" style="display: none">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <input id="addTableName" type="text" placeholder="Enter new category name"/>
+        <button onclick="addCategory()">OK</button>
+    </div>
+
+</div>
+
+<!-- The Modal -->
+<div id="myModal2" class="modal" style="display: none">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <input id="addAccName" type="text" placeholder="Enter new account name"/>
+        <input id="addAccPwd" type="text" placeholder="Enter new account password"/>
+        <button onclick="addAccount()">OK</button>
+    </div>
+
+</div>
 <script src="vault.js"></script>
 </body>
 </html>

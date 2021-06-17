@@ -55,8 +55,8 @@ async function createVault(){
     const password = document.getElementById("mPwd").value;
     console.log(name);
     console.log(password);
-    addDb(name, password);
-    //localStorage.removeItem("addDbName");
+    await addDb(name, password);
+    localStorage.removeItem("addDbName");
     document.getElementById("myModal").style.display = "none";
 }
 
@@ -65,6 +65,7 @@ function saveVaultFile(){
         localStorage.setItem("addDbName", result.filePath)
     })
 }
+
 async function addDb(name, password){
     console.log(name);
     console.log(password);
@@ -72,7 +73,7 @@ async function addDb(name, password){
     await db.serialize(()=>{
         db.run("PRAGMA cipher_compatibility = 4");
         db.run("PRAGMA key = '" + password + "'");
-        db.run('CREATE TABLE IF NOT EXISTS accounts(label TEXT, password TEXT, iv TEXT)');
+        db.run('CREATE TABLE IF NOT EXISTS accounts(label TEXT, username TEXT, password TEXT, iv TEXT, createDate DATE, lasEdited DATE)');
     })
     await db.close();
 }
