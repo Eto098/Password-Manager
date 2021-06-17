@@ -162,6 +162,10 @@ button.login {
 }
 /* Vertical Menu for items END */
 
+button.items {
+    background: #343A40 !important;
+    border: 1px #343A40;
+}
 
 
 div#page-logo {
