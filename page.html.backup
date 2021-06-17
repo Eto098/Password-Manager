@@ -12,23 +12,36 @@
   <body>
       <div id="a">
 
-          <div id="page-logo">
-            <img src="./media/privacy_64.png"/>
-          </div>
-
-          <div class="categories">
-              <a href="#" class="active">Logins</a>
-              <a href="#">Category 1</a>
-              <a href="#">Category 2</a>
-              <a href="#">Category 3</a>
-              <a href="#">Category 4</a>
-        </div>
-        <hr>
-
-                  <div class="categories">
-                      <a href="#">Trash</a>
-                </div>
-
+          <nav class="sidebar card py-2 mb-4 bg-dark border-light">
+          <ul class="nav flex-column" id="nav_accordion">
+          	<li class="nav-item">
+          		<a class="nav-link" href="#"> Link name </a>
+          	</li>
+          	<li class="nav-item has-submenu">
+          		<a class="nav-link" href="#"> Submenu links  </a>
+          		<ul class="submenu collapse">
+          			<li><a class="nav-link" href="#">Submenu item 1 </a></li>
+          			<li><a class="nav-link" href="#">Submenu item 2 </a></li>
+          			<li><a class="nav-link" href="#">Submenu item 3 </a> </li>
+          		</ul>
+          	</li>
+          	<li class="nav-item has-submenu">
+          		<a class="nav-link" href="#"> More menus  </a>
+          		<ul class="submenu collapse">
+          			<li><a class="nav-link" href="#">Submenu item 4 </a></li>
+          			<li><a class="nav-link" href="#">Submenu item 5 </a></li>
+          			<li><a class="nav-link" href="#">Submenu item 6 </a></li>
+          			<li><a class="nav-link" href="#">Submenu item 7 </a></li>
+          		</ul>
+          	</li>
+          	<li class="nav-item">
+          		<a class="nav-link" href="#"> Something </a>
+          	</li>
+          	<li class="nav-item">
+          		<a class="nav-link" href="#"> Other link </a>
+          	</li>
+          </ul>
+          </nav>
 
 
 
@@ -39,14 +52,14 @@
             <div class="container-fluid">
               <form class="d-flex">
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-
+                <button class="btn btn-outline-success" type="submit">Search</button>
               </form>
             </div>
           </nav>
 
 
 
-          <button type="button" class="btn btn-dark bg-dark" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@add">Add New Item</button>
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@add">+</button>
 
           <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
@@ -75,41 +88,12 @@
             </div>
           </div>
 
-
-          <div class="items">
-              <a href="#" >ABU</a>
-              <a href="#">Gmail</a>
-              <a href="#" class="active" >Hotmail</a>
-              <a href="#">Github</a>
-              <a href="#">Gitlab</a>
-        </div>
-
       </div>
 
       <div id="content">
-          <h1> Hotmail </h1>
-          <br><br>
-
-          <form>
-        <div class="form-group row">
-          <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
-          <div class="col-sm-10">
-            <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
-          </div>
-        </div>
-
-        <div class="form-group row">
-          <label for="inputPassword3" class="col-sm-2 col-form-label">Password</label>
-          <div class="col-sm-10">
-            <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
-          </div>
-        </div>
-
-
-    
-      </form>
-
-
+        <h1>London</h1>
+        <p>London is the capital city of England. It is the most populous city in the  United Kingdom, with a metropolitan area of over 13 million inhabitants.</p>
+        <p>Standing on the River Thames, London has been a major settlement for two millennia, its history going back to its founding by the Romans, who named it Londinium.</p>
 
     </div>
 

@@ -5,6 +5,10 @@
 
 html {
     background-color: #212529;
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
 }
 
 body {
@@ -14,26 +18,26 @@ body {
 div#a {
   float: left;
   width: 20%;
-  height: 100%;
+  height: 100vh;
   background: #21242B;
-  padding: 10px;
+  padding: 0px;
   color: white;
 }
 
 div#b {
-  height: 100%;
+  height: 100vh;
   float: left;
   width: 30%;
-  background: #282C35;
-  padding: 20px;
+  background: #343A40;
+  padding: 0px;
 }
 
 div#content {
-  height: 100%;
+  height: 100vh;
   float: left;
   padding: 20px;
   width: 50%;
-  background-color: #343A40;
+  background: #343A40;
 }
 
 div#login{
@@ -41,6 +45,12 @@ div#login{
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    text-align:center;
+    display: block;
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
 }
 
 input.pass{
@@ -93,13 +103,72 @@ input.pass{
     user-select: none; /* Standard */
 }
 
-.test {
-    background-image: url('./../media/privacy.svg');
-}
-
 button.login {
     display: inline-block;
     text-decoration: none;
     width: 40%;
     margin: 1em;
+}
+
+
+/* Vertical Menu for Categories */
+.categories {
+  width: auto;
+}
+
+.categories a {
+  background-color: #212529;
+  color: #DEE2E6;
+  display: block;
+  padding: 12px;
+  text-decoration: none;
+}
+
+.categories a:hover {
+  color: black;
+  background-color: #ccc;
+}
+
+.categories a.active {
+  background-color: #DEE2E6;
+  color: black;
+}
+/* Vertical Menu for Categories END */
+
+/* Vertical Menu for items */
+.items {
+  width: auto;
+}
+
+.items a {
+  background-color: #343A40;
+  color: #DEE2E6;
+  display: block;
+  padding: 12px;
+  text-decoration: none;
+}
+
+.items a:hover {
+  color: black;
+  background-color: #ccc;
+}
+
+.items a.active {
+  background-color: #DEE2E6;
+  color: black;
+}
+/* Vertical Menu for items END */
+
+
+
+div#page-logo {
+    display: flex;
+  justify-content: center;
+  padding: 2em;
+
+}
+
+.modal{
+    
+    color: black;
 }
