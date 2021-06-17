@@ -50,12 +50,14 @@
     <div id="categoriesHeader">CATEGORIES</div>
     <div id="categories"> </div>
     <button id="addCategoryBtn">+</button>
+    <button id="deleteCategoryBtn" onclick="deleteCategory()">-</button>
 </div>
 <hr>
 <div>
     <div id="accountsHeader">ACCOUNTS</div>
     <div id="accounts"></div>
     <button id="addAccountBtn">+</button>
+    <button id="deleteAccountBtn" onclick="deleteAccount()">-</button>
 </div>
 <hr>
 <div>
@@ -63,7 +65,6 @@
     <div id="accountInfo"></div>
     <button id="editAccountBtn">+</button>
 </div>
-
 
 <!-- The Modal -->
 <div id="myModal" class="modal" style="display: none">
@@ -102,6 +103,8 @@
     </div>
 
 </div>
+
 <script src="vault.js"></script>
+
 </body>
 </html>

@@ -2,6 +2,7 @@ const sqlite3 = require('@journeyapps/sqlcipher').verbose();
 let currTable = "accounts";
 listCategories();
 
+
 async function listCategories(){
     const db = await new sqlite3.Database(localStorage.getItem("currDb"));
     await db.serialize(()=>{
@@ -72,7 +73,8 @@ async function addCategory(){
     await db.serialize(()=>{
         db.run("PRAGMA cipher_compatibility = 4");
         db.run("PRAGMA key = " + localStorage.getItem("pwd"));
-        db.run('CREATE TABLE IF NOT EXISTS ' + category + ' (label TEXT, username TEXT, password TEXT, iv TEXT, createDate DATE, lasEdited DATE)');
+        db.run('CREATE TABLE IF NOT EXISTS ' + category +
+            ' (label TEXT, username TEXT, password TEXT, iv TEXT, createDate DATE, lasEdited DATE)');
     });
     document.getElementById("myModal").style.display = "none";
     await db.close();
@@ -85,7 +87,8 @@ async function addAccount(){
     await db.serialize(()=>{
         db.run("PRAGMA cipher_compatibility = 4");
         db.run("PRAGMA key = " + localStorage.getItem("pwd"));
-        db.run('INSERT INTO '+currTable+' (label, password) VALUES(?,?)', [label, password], function(err) {
+        db.run('INSERT INTO '+currTable+' (label, password) VALUES(?,?)',
+            [label, password], function(err) {
             if (err) {
                 return console.log(err.message);
             }
@@ -117,7 +120,46 @@ async function editAccount(){
     document.getElementById("myModal3").style.display = "none";
     await db.close();
 }
-// Get the modal
+async function deleteCategory(){
+    const db = await new sqlite3.Database(localStorage.getItem("currDb"));
+    await db.serialize(()=>{
+        db.run("PRAGMA cipher_compatibility = 4");
+        db.run("PRAGMA key = " + localStorage.getItem("pwd"));
+        db.run('DROP TABLE ' + currTable,
+            function(err) {
+                if (err) {
+                    return console.log(err.message);
+                }
+                console.log("category deleted");
+            });
+    });
+    currTable = "";
+    await db.close();
+}
+async function deleteAccount(){
+    const db = await new sqlite3.Database(localStorage.getItem("currDb"));
+    await db.serialize(()=>{
+        db.run("PRAGMA cipher_compatibility = 4");
+        db.run("PRAGMA key = " + localStorage.getItem("pwd"));
+        db.run('DELETE FROM ' + currTable + ' WHERE label=?',
+            document.getElementById("accountInfoHeader").innerText,
+            function(err) {
+                if (err) {
+                    return console.log(err.message);
+                }
+                console.log("category deleted");
+            });
+    });
+    currTable = "";
+    await db.close();
+}
+
+
+
+
+//-----------------MODAL BOXES-----------------//
+
+// Get the modal for addCategory method
 const modal = document.getElementById("myModal");
 // Get the button that opens the modal
 const btn = document.getElementById("addCategoryBtn");
@@ -132,7 +174,7 @@ span.onclick = function() {
     modal.style.display = "none";
 }
 
-// Get the modal
+// Get the modal for addAccount method
 const modal2 = document.getElementById("myModal2");
 // Get the button that opens the modal
 const btn2 = document.getElementById("addAccountBtn");
@@ -147,7 +189,7 @@ span2.onclick = function() {
     modal2.style.display = "none";
 }
 
-// Get the modal
+// Get the modal for editAccount method
 const modal3 = document.getElementById("myModal3");
 // Get the button that opens the modal
 const btn3 = document.getElementById("editAccountBtn");

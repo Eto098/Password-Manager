@@ -49,9 +49,10 @@
 
     <a id="currDbName" onclick="browseBtn()">choose vault</a>
     <br>
-    <input id="masterPassword" type="text" placeholder="Enter your master password"/>
+    <input id="masterPassword" type="password" onkeyup="pwChanged()" placeholder="Enter your master password"/>
+    <button onclick="showPwBtn()"></button>
     <br>
-    <button onclick="openVault()">Open Vault</button>
+    <button id="openVault" onclick="openVault()" disabled="disabled">Open Vault</button>
     <br>
     <button id="createVault">Create Vault</button>
 
@@ -61,9 +62,12 @@
       <!-- Modal content -->
       <div class="modal-content">
         <span class="close">&times;</span>
-        <button onclick="saveVaultFile()">Create Database</button>
-        <input id="mPwd" type="text" placeholder="Enter Master Password"/>
-        <button onclick="createVault()">OK</button>
+        <button onclick="saveVaultFile()">Create Database File</button>
+        <br>
+        <input id="mPwd" type="password" onkeyup="pwChanged2()" placeholder="Enter Master Password"/>
+        <button onclick="showPwBtn2()"></button>
+        <br>
+        <button id="createVaultBtn" onclick="createVault()" disabled="disabled">OK</button>
       </div>
 
     </div>

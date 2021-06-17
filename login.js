@@ -4,13 +4,42 @@ const {basename} = require('path');
 const url = require('url');
 const path = require('path');
 
+localStorage.clear();
+
 function browseBtn(){
     dialog.showOpenDialog({title: "Choose A Vault"}).then((result) => {
-        localStorage.setItem("currDb", result.filePaths[0]);
+        localStorage.setItem("currDb", result.filePaths[0])
         document.getElementById("currDbName").innerText = basename(result.filePaths[0]);
+        if (localStorage.getItem("currDb") &&
+            localStorage.getItem("currDb").endsWith(".sql") &&
+            document.getElementById("masterPassword").value){
+            console.log(111);
+            document.getElementById("openVault").disabled = false;
+        }else{
+            document.getElementById("openVault").disabled = true;
+            console.log(222);
+        }
     });
-}
 
+}
+function pwChanged(){
+    if (localStorage.getItem("currDb") &&
+        localStorage.getItem("currDb").endsWith(".sql") &&
+        document.getElementById("masterPassword").value){
+        document.getElementById("openVault").disabled = false;
+    }else{
+        document.getElementById("openVault").disabled = true;
+    }
+}
+function pwChanged2(){
+    if (localStorage.getItem("addDbName") &&
+        localStorage.getItem("addDbName").endsWith(".sql") &&
+        document.getElementById("mPwd").value){
+        document.getElementById("createVaultBtn").disabled = false;
+    }else{
+        document.getElementById("createVaultBtn").disabled = true;
+    }
+}
 async function openVault(){
     const pwd = document.getElementById("masterPassword").value;
     const dbName = localStorage.getItem("currDb");
@@ -49,7 +78,6 @@ async function openVault(){
         console.log(e);
     }
 }
-
 async function createVault(){
     const name = localStorage.getItem("addDbName");
     const password = document.getElementById("mPwd").value;
@@ -59,13 +87,34 @@ async function createVault(){
     localStorage.removeItem("addDbName");
     document.getElementById("myModal").style.display = "none";
 }
-
 function saveVaultFile(){
     dialog.showSaveDialog({title: "Create A Vault"}).then((result) => {
         localStorage.setItem("addDbName", result.filePath)
-    })
+    });
+    if (localStorage.getItem("addDbName") &&
+        localStorage.getItem("addDbName").endsWith(".sql") &&
+        document.getElementById("mPwd").value){
+        document.getElementById("createVaultBtn").disabled = false;
+    }else{
+        document.getElementById("createVaultBtn").disabled = true;
+    }
 }
-
+function showPwBtn(){
+    let pw = document.getElementById("masterPassword");
+    if(pw.type==="password"){
+        pw.type = "text"
+    }else{
+        pw.type="password"
+    }
+}
+function showPwBtn2(){
+    let pw = document.getElementById("mPwd");
+    if(pw.type==="password"){
+        pw.type = "text"
+    }else{
+        pw.type="password"
+    }
+}
 async function addDb(name, password){
     console.log(name);
     console.log(password);
@@ -77,7 +126,11 @@ async function addDb(name, password){
     })
     await db.close();
 }
-// Get the modal
+
+
+
+
+// Get the modal for createVault method
 const modal = document.getElementById("myModal");
 
 // Get the button that opens the modal
