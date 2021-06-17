@@ -95,10 +95,27 @@ async function addAccount(){
     document.getElementById("myModal2").style.display = "none";
     await db.close();
 }
-function editAccount(){
-
+async function editAccount(){
+    label = document.getElementById("editAccName").value;
+    password = document.getElementById("editAccPwd").value;
+    console.log(label);
+    console.log(password);
+    const db = await new sqlite3.Database(localStorage.getItem("currDb"));
+    await db.serialize(()=>{
+        db.run("PRAGMA cipher_compatibility = 4");
+        db.run("PRAGMA key = " + localStorage.getItem("pwd"));
+        db.run('UPDATE okul SET label="Github", password="123456789999" WHERE label="hotmail"',
+            function(err) {
+            if (err) {
+                return console.log(err.message);
+            }
+            console.log("Employee has been update");
+        });
+    });
+    document.getElementById("myModal3").style.display = "none";
+    await db.close();
 }
-
+editAccount();
 // Get the modal
 const modal = document.getElementById("myModal");
 // Get the button that opens the modal
@@ -129,10 +146,26 @@ span2.onclick = function() {
     modal2.style.display = "none";
 }
 
+// Get the modal
+const modal3 = document.getElementById("myModal3");
+// Get the button that opens the modal
+const btn3 = document.getElementById("editAccountBtn");
+// Get the <span> element that closes the modal
+const span3 = document.getElementsByClassName("close")[2];
+// When the user clicks on the button, open the modal
+btn3.onclick = function() {
+    modal3.style.display = "block";
+}
+// When the user clicks on <span> (x), close the modal
+span3.onclick = function() {
+    modal3.style.display = "none";
+}
+
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
-    if (event.target === modal2 || event.target === modal) {
+    if (event.target === modal2 || event.target === modal || event.target === modal3) {
         modal2.style.display = "none";
         modal.style.display = "none";
+        modal3.style.display = "none";
     }
 }
