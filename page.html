@@ -22,12 +22,10 @@
               <a href="#">Category 2</a>
               <a href="#">Category 3</a>
               <a href="#">Category 4</a>
-        </div>
-        <hr>
+              <button type="button" class="btn btn-dark bg-dark" data-bs-toggle="modal" data-bs-target="#newCategory" data-bs-whatever="@add">+</button>
 
-                  <div class="categories">
-                      <a href="#">Trash</a>
-                </div>
+        </div>
+
 
 
 
@@ -48,28 +46,24 @@
 
           <button type="button" class="btn btn-dark bg-dark" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@add">Add New Item</button>
 
-          <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal fade" id="newCategory" tabindex="-1" aria-labelledby="newCategoryLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                  <h5 class="modal-title" id="newCategoryLabel">New Category</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                   <form>
                     <div class="mb-3">
-                      <label for="recipient-name" class="col-form-label">Recipient:</label>
+                      <label for="recipient-name" class="col-form-label">Name:</label>
                       <input type="text" class="form-control" id="recipient-name">
-                    </div>
-                    <div class="mb-3">
-                      <label for="message-text" class="col-form-label">Message:</label>
-                      <textarea class="form-control" id="message-text"></textarea>
                     </div>
                   </form>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary">Send message</button>
+                  <button type="button" class="btn btn-primary">Create Category</button>
                 </div>
               </div>
             </div>
@@ -94,7 +88,7 @@
         <div class="form-group row">
           <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
           <div class="col-sm-10">
-            <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
+            <input type="email" class="form-control" id="inputEmail3" placeholder="Username">
           </div>
         </div>
 
@@ -106,7 +100,7 @@
         </div>
 
 
-    
+
       </form>
 
 
