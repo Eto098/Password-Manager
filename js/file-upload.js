@@ -1,3 +1,3 @@
 document.getElementById("uploadBtn").onchange = function () {
-    document.getElementById("uploadFile").value = this.value.split(/(\\|\/)/g).pop();
+    document.getElementById("currDbName").value = this.value.split(/(\\|\/)/g).pop();
 };

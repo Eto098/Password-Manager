@@ -9,15 +9,13 @@ localStorage.clear();
 function browseBtn(){
     dialog.showOpenDialog({title: "Choose A Vault"}).then((result) => {
         localStorage.setItem("currDb", result.filePaths[0])
-        document.getElementById("currDbName").innerText = basename(result.filePaths[0]);
+        document.getElementById("currDbName").value = basename(result.filePaths[0]);
         if (localStorage.getItem("currDb") &&
             localStorage.getItem("currDb").endsWith(".sql") &&
-            document.getElementById("masterPassword").value){
-            console.log(111);
+            document.getElementById("password").value){
             document.getElementById("openVault").disabled = false;
         }else{
             document.getElementById("openVault").disabled = true;
-            console.log(222);
         }
     });
 
@@ -25,7 +23,7 @@ function browseBtn(){
 function pwChanged(){
     if (localStorage.getItem("currDb") &&
         localStorage.getItem("currDb").endsWith(".sql") &&
-        document.getElementById("masterPassword").value){
+        document.getElementById("password").value){
         document.getElementById("openVault").disabled = false;
     }else{
         document.getElementById("openVault").disabled = true;
@@ -41,7 +39,7 @@ function pwChanged2(){
     }
 }
 async function openVault(){
-    const pwd = document.getElementById("masterPassword").value;
+    const pwd = document.getElementById("password").value;
     const dbName = localStorage.getItem("currDb");
     localStorage.setItem("pwd", pwd);
 
@@ -81,6 +79,8 @@ async function openVault(){
 async function createVault(){
     const name = localStorage.getItem("addDbName");
     const password = document.getElementById("mPwd").value;
+    localStorage.setItem("currDb", name);
+    document.getElementById("currDbName").value = basename(name)
     console.log(name);
     console.log(password);
     await addDb(name, password);

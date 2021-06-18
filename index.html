@@ -8,6 +8,47 @@
     <link rel="stylesheet" href="./css/bootstrap.min.css">
     <link rel="stylesheet" href="./css/show-password-toggle.css">
     <title>Password Manager</title>
+    <style>
+          /* The Modal (background) */
+          .modal {
+              display: none; /* Hidden by default */
+              position: fixed; /* Stay in place */
+              z-index: 1; /* Sit on top */
+              padding-top: 100px; /* Location of the box */
+              left: 0;
+              top: 0;
+              width: 100%; /* Full width */
+              height: 100%; /* Full height */
+              overflow: auto; /* Enable scroll if needed */
+              background-color: rgb(0,0,0); /* Fallback color */
+              background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+          }
+
+          /* Modal Content */
+          .modal-content {
+              background-color: #fefefe;
+              margin: auto;
+              padding: 20px;
+              border: 1px solid #888;
+              width: 80%;
+          }
+
+          /* The Close Button */
+          .close {
+              color: #aaaaaa;
+              float: right;
+              font-size: 28px;
+              font-weight: bold;
+          }
+
+          .close:hover,
+          .close:focus {
+              color: #000;
+              text-decoration: none;
+              cursor: pointer;
+          }
+      </style>
+  </head>
   <body>
 
       <div id="login">
@@ -15,34 +56,45 @@
              <div class="mb-3">
 
                 <div class="fileUpload image-upload logo">
-                <label for="uploadBtn">
-                        <img src="./media/privacy.png"/>
-                    </label>
-                    <input id="uploadBtn" type="file" class="upload" />
+                    <a onclick="browseBtn()"><img src="./media/privacy.png"/></a>
                 </div>
 
 <br>
 
-<input id="uploadFile" class="upload" placeholder="Vault is not selected." disabled="disabled" />
+<input id="currDbName" class="upload" placeholder="Vault is not selected." disabled="disabled" />
 
 <br>
 
                   <div class="input-group">
-                      <input type="password" id="password" class="shadow-none form-control  pass" spellcheck="false" autocorrect="off" autocapitalize="off" required autofocus>
+                      <input type="password" onkeyup="pwChanged()" id="password" class="shadow-none form-control  pass" spellcheck="false" autocorrect="off" autocapitalize="off" required autofocus>
                       <button id="toggle-password" type="button" class="d-none"
                         aria-label="Show password as plain text. Warning: this will display your password on the screen." >
                       </button>
                   </div>
 
 
-                    <button type="button" class="btn btn-light btn-sm login">Unlock Vault</button>
+                    <button onclick="openVault()" id="openVault" type="button" disabled="disabled" class="btn btn-light btn-sm login">Unlock Vault</button>
                      <br><br><br><br>
-                      <button type="button" class="btn btn-outline-light btn-sm login">New Vault</button>
+                      <button id="createVault" type="button" class="btn btn-outline-light btn-sm login">New Vault</button>
 
             </div>
 
       </div>
-   <script src="./js/file-upload.js"></script>
+      <!-- The Modal -->
+      <div id="myModal" class="modal" style="display: none">
+
+          <!-- Modal content -->
+          <div class="modal-content">
+              <span class="close">&times;</span>
+              <button onclick="saveVaultFile()">Create Database File</button>
+              <br>
+              <input id="mPwd" type="password" onkeyup="pwChanged2()" placeholder="Enter Master Password"/>
+              <button onclick="showPwBtn2()"></button>
+              <br>
+              <button id="createVaultBtn" onclick="createVault()" disabled="disabled">OK</button>
+          </div>
+
+      </div>
    <script src="./js/show-password-toggle.js"></script>
    <script src="./js/bootstrap.min.js"></script>
    <script src="./js/popper.min.js"></script>
