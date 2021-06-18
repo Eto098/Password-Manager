@@ -18,9 +18,12 @@
 
   <div id="categories">
 
-    <button type="button" class="btn btn-dark bg-dark" data-bs-toggle="modal" data-bs-target="#newCategory" data-bs-whatever="@add">+</button>
+
+
 
   </div>
+  <button type="button" class="btn btn-dark bg-dark" data-bs-toggle="modal" data-bs-target="#newCategory" data-bs-whatever="@add">+</button>
+  <button onclick="deleteCategory()" type="button" class="btn btn-dark bg-dark" >-</button>
 
 
   <div class="modal fade" id="newCategory" tabindex="-1" aria-labelledby="newCategoryLabel" aria-hidden="true">
@@ -33,14 +36,14 @@
         <div class="modal-body">
           <form>
             <div class="mb-3">
-              <label for="recipient-name" class="col-form-label">Name:</label>
-              <input type="text" class="form-control" id="recipient-name">
+              <label for="addTableName" class="col-form-label">Name:</label>
+              <input type="text" class="form-control" id="addTableName">
             </div>
           </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Create Category</button>
+          <button onclick="addCategory()" type="button" class="btn btn-primary" data-bs-dismiss="modal">Create Category</button>
         </div>
       </div>
     </div>
@@ -59,9 +62,10 @@
 
   <div id="accounts" class="items">
 
-    <button type="button" class="btn btn-dark bg-dark items" data-bs-toggle="modal" data-bs-target="#newAccount" data-bs-whatever="@add">+</button>
-  </div>
 
+  </div>
+  <button type="button" class="btn btn-dark bg-dark items" data-bs-toggle="modal" data-bs-target="#newAccount" data-bs-whatever="@add">+</button>
+  <button type="button" onclick="deleteAccount()" class="btn btn-dark bg-dark items">-</button>
   <div class="modal fade" id="newAccount" tabindex="-1" aria-labelledby="newAccountLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
@@ -72,14 +76,26 @@
         <div class="modal-body">
           <form>
             <div class="mb-3">
-              <label for="recipient-name" class="col-form-label">Name:</label>
-              <input type="text" class="form-control" id="recipient-name">
+              <label for="recipient-label" class="col-form-label">Label:</label>
+              <input type="text" class="form-control" id="recipient-label">
+            </div>
+            <div class="mb-3">
+              <label for="recipient-username" class="col-form-label">Username:</label>
+              <input type="text" class="form-control" id="recipient-username">
+            </div>
+            <div class="mb-3">
+              <label for="recipient-password" class="col-form-label">Password:</label>
+              <input type="text" class="form-control" id="recipient-password">
+            </div>
+            <div class="mb-3">
+              <label for="recipient-website" class="col-form-label">Website:</label>
+              <input type="text" class="form-control" id="recipient-website">
             </div>
           </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Create Category</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="addAccount()">Create Account</button>
         </div>
       </div>
     </div>
@@ -90,41 +106,17 @@
 
 <div id="content">
 
-  <h1> Hotmail </h1>
+  <h1 id="accountInfoHeader"></h1><p id="editBtn"></p>
   <br><br>
 
   <form>
-    <div class="form-group row">
+    <div id="accountInfo" class="form-group row">
 
-      <label for="inputEmail3" class="col-sm-2 col-form-label">Username</label>
-      <div class="col-sm-10">
-        <input type="email" class="form-control" id="inputEmail3" placeholder="Username">
-      </div>
-
-      <label for="inputPassword3" class="col-sm-2 col-form-label">Password</label>
-      <div class="col-sm-10">
-        <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
-      </div>
-
-      <label for="inputUrl1" class="col-sm-2 col-form-label">Website</label>
-      <div class="col-sm-10">
-        <input type="text" class="form-control" id="inputUrl1" placeholder="Website">
-      </div>
-
-      <label for="inputUrl2" class="col-sm-2 col-form-label">Modified</label>
-      <div class="col-sm-10">
-        <input type="text" class="form-control" id="inputUrl2" placeholder="Modified" disabled>
-      </div>
-
-      <label for="inputUrl3" class="col-sm-2 col-form-label">Created</label>
-      <div class="col-sm-10">
-        <input type="text" class="form-control" id="inputUrl3" placeholder="Created" disabled>
-      </div>
 
     </div>
-
-
   </form>
+  <br><br>
+  <button id="btnEdited" onclick="btnEdited()" style="display: none" type="button" class="btn btn-outline-success">✓</button>
 
 
 

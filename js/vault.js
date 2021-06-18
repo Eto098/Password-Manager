@@ -3,7 +3,10 @@ const crypto = require('crypto');
 
 const secretKey = 'thsadklfjdsaklnvsdlayasdtalkgsad';
 let currTable = "accounts";
-
+const db = new sqlite3.Database(localStorage.getItem("currDb"));
+db.serialize(()=>{
+    db.run("PRAGMA cipher_compatibility = 4");
+    db.run("PRAGMA key = " + localStorage.getItem("pwd"));});
 listCategories();
 listAccounts();
 
@@ -14,26 +17,30 @@ listAccounts();
  * listCategories()
  */
 async function listCategories(){
-    const db = await new sqlite3.Database(localStorage.getItem("currDb"));
     await db.serialize(()=>{
-        db.run("PRAGMA cipher_compatibility = 4");
-        db.run("PRAGMA key = " + localStorage.getItem("pwd"));
         db.each("select name from sqlite_master where type='table'", function (err, table) {
 
             const categoryElement = document.createElement('a');
             categoryElement.type = "text";
-            categoryElement.innerHTML = "<div class='category'>"+table.name+"</div>"
+            categoryElement.attributes
+            categoryElement.classList.add("category");
+            categoryElement.innerHTML = "<div>"+table.name+"</div>"
             categoryElement.addEventListener('click', function(){
                 for(let i = 0; i < document.getElementsByClassName("category").length; i++){
+                    console.log(1,document.getElementsByClassName("category")[i]);
+                    console.log(1,document.getElementsByClassName("category")[i].classList);
                     document.getElementsByClassName("category")[i].classList.remove("active");
                 }
+                console.log(this);
                 this.classList.add("active");
+                console.log(this.classList.contains("active"));
+                currTable = table.name;
+                listAccounts();
             });
             document.getElementById("categories").appendChild(categoryElement);
 
         });
     });
-    await db.close();
 }
 
 /**
@@ -43,10 +50,7 @@ async function listCategories(){
  * listAccounts()
  */
 async function listAccounts(){
-    const db = await new sqlite3.Database(localStorage.getItem("currDb"));
     await db.serialize(()=>{
-        db.run("PRAGMA cipher_compatibility = 4");
-        db.run("PRAGMA key = " + localStorage.getItem("pwd"));
         db.all('SELECT * FROM ' + currTable, function(err, tuples) {
             if (err) {
                 return console.log(err.message);
@@ -55,10 +59,11 @@ async function listAccounts(){
                 tuples.forEach((row) => {
                     const accountsElement = document.createElement('a');
                     accountsElement.type = "text";
-                    accountsElement.innerHTML = "<div class='account'>"+row.label+"</div>"
+                    accountsElement.classList.add("account");
+                    accountsElement.innerHTML = "<div>"+row.label+"</div>"
                     accountsElement.addEventListener('click', async function(){
                         for(let i = 0; i < document.getElementsByClassName("account").length; i++){
-                            document.getElementsByClassName("category")[i].classList.remove("active");
+                            document.getElementsByClassName("account")[i].classList.remove("active");
                         }
                         this.classList.add("active");
                         await getAccountInfo(row.label)
@@ -68,7 +73,6 @@ async function listAccounts(){
             }
         });
     });
-    await db.close();
 }
 
 /**
@@ -79,25 +83,44 @@ async function listAccounts(){
  * @param label
  */
 async function getAccountInfo(label){
-    const db = await new sqlite3.Database(localStorage.getItem("currDb"));
     await db.serialize(()=>{
-        db.run("PRAGMA cipher_compatibility = 4");
-        db.run("PRAGMA key = " + localStorage.getItem("pwd"));
         db.all('SELECT * FROM ' + currTable + ' WHERE label = ?', label, function(err, result) {
             if (err) {
                 return console.log(err.message);
             }else{
                 result.forEach((row) => {
-                    document.getElementById("accountInfoHeader").innerText = row.label
+                    document.getElementById("accountInfoHeader").innerHTML = row.label;
+                        document.getElementById("editBtn").innerHTML = "<button onclick='editAccount()' type=\"button\" className=\"btn btn-outline-dark btn-sm\">~</button>";
                     document.getElementById("accountInfo").innerHTML =
-                        "<div class='accountInfo'>" + row.label +
-                        "<br>" + decryptPw({iv: row.iv, password: row.password}) +
-                        "</div>";
+                        "      <label for=\"inputEmail3\" class=\"col-sm-2 col-form-label\">Username</label>\n" +
+                        "      <div class=\"col-sm-10\">\n" +
+                        "        <input type=\"email\" class=\"form-control\" id=\"inputusername\" value="+row.username+" disabled='disabled'>\n" +
+                        "      </div>\n" +
+                        "\n" +
+                        "      <label for=\"inputPassword3\" class=\"col-sm-2 col-form-label\">Password</label>\n" +
+                        "      <div class=\"col-sm-10\">\n" +
+                        "        <input type=\"text\" class=\"form-control\" id=\"inputpassword\" value="+decryptPw({iv: row.iv, password: row.password})+" disabled='disabled'>\n" +
+                        "      </div>\n" +
+                        "\n" +
+                        "      <label for=\"inputUrl1\" class=\"col-sm-2 col-form-label\">Website</label>\n" +
+                        "      <div class=\"col-sm-10\">\n" +
+                        "        <input type=\"text\" class=\"form-control\" id=\"inputwebsite\" value="+row.website+" disabled='disabled'>\n" +
+                        "      </div>\n" +
+                        "\n" +
+                        "      <label for=\"inputUrl2\" class=\"col-sm-2 col-form-label\">Modified</label>\n" +
+                        "      <div class=\"col-sm-10\">\n" +
+                        "        <input type=\"text\" class=\"form-control\" id=\"inputlastEdited\" value="+row.lastEdited+" disabled='disabled'>\n" +
+                        "      </div>\n" +
+                        "\n" +
+                        "      <label for=\"inputUrl3\" class=\"col-sm-2 col-form-label\">Created</label>\n" +
+                        "      <div class=\"col-sm-10\">\n" +
+                        "        <input type=\"text\" class=\"form-control\" id=\"inputcreateDate\" value="+row.createDate+" disabled='disabled'>\n" +
+                        "      </div>"
+
                 })
             }
         });
     });
-    await db.close();
 }
 
 /**
@@ -108,15 +131,10 @@ async function getAccountInfo(label){
  */
 async function addCategory(){
     const category = document.getElementById("addTableName").value;
-    const db = await new sqlite3.Database(localStorage.getItem("currDb"));
     await db.serialize(()=>{
-        db.run("PRAGMA cipher_compatibility = 4");
-        db.run("PRAGMA key = " + localStorage.getItem("pwd"));
         db.run('CREATE TABLE IF NOT EXISTS ' + category +
-            ' (label TEXT NOT NULL, username TEXT, password TEXT, iv TEXT, createDate DATE, lastEdited DATE)');
+            ' (label TEXT NOT NULL, username TEXT, password TEXT, iv TEXT, website TEXT, createDate DATE, lastEdited DATE)');
     });
-    document.getElementById("myModal").style.display = "none";
-    await db.close();
     document.getElementById("accounts").innerHTML = "";
     document.getElementById("accountInfoHeader").innerHTML = "";
     document.getElementById("accountInfo").innerHTML = "";
@@ -131,26 +149,21 @@ async function addCategory(){
  * addAccount()
  */
 async function addAccount(){
-    let label = document.getElementById("addAccName").value;
-    let password = document.getElementById("addAccPwd").value;
-    let username = document.getElementById("addAccUser").value;
+    let label = document.getElementById("recipient-label").value;
+    let password = document.getElementById("recipient-password").value;
+    let username = document.getElementById("recipient-username").value;
+    let website = document.getElementById("recipient-website").value;
     const encryptedPw = encryptPw(password);
-    const db = await new sqlite3.Database(localStorage.getItem("currDb"));
     await db.serialize(()=>{
-        db.run("PRAGMA cipher_compatibility = 4");
-        db.run("PRAGMA key = " + localStorage.getItem("pwd"));
-        db.run('INSERT INTO '+currTable+' VALUES(?,?,?,?,date("now"),date("now"))',
-            [label, username, encryptedPw.password, encryptedPw.iv], function(err) {
+        db.run('INSERT INTO '+currTable+' VALUES(?,?,?,?,?,date("now"),date("now"))',
+            [label, username, encryptedPw.password, encryptedPw.iv, website], function(err) {
             if (err) {
                 return console.log(err.message);
             }
         });
     });
-    document.getElementById("myModal2").style.display = "none";
-    await db.close();
-    listAccounts();
-    document.getElementById("accountInfoHeader").innerHTML = "";
-    document.getElementById("accountInfo").innerHTML = "";
+    document.getElementById("accounts").innerHTML = "";
+    await listAccounts();
 }
 
 /**
@@ -159,31 +172,37 @@ async function addAccount(){
  * @example
  * editAccount()
  */
-async function editAccount(){
-    let label = document.getElementById("editAccName").value;
-    let password = document.getElementById("editAccPwd").value;
-    let username = document.getElementById("editAccUser").value;
+function editAccount(){
+    document.getElementById("inputusername").disabled = false;
+    document.getElementById("inputpassword").disabled = false;
+    document.getElementById("inputwebsite").disabled = false;
+    document.getElementById("btnEdited").style.display = "block";
+}
+
+async function btnEdited(){
+    let website = document.getElementById("inputwebsite").value;
+    let username = document.getElementById("inputusername").value;
+    let password = document.getElementById("inputpassword").value;
     const encryptedPw = encryptPw(password);
-    const db = await new sqlite3.Database(localStorage.getItem("currDb"));
-    await db.serialize(()=>{
-        db.run("PRAGMA cipher_compatibility = 4");
-        db.run("PRAGMA key = " + localStorage.getItem("pwd"));
+
         db.run('UPDATE '+currTable+
-            ' SET label=?, username=?, password=?, iv=?, lastEdited=date("now") WHERE label=?',
-            [label, username, encryptedPw.password, encryptedPw.iv,
+            ' SET website=?, username=?, password=?, iv=?, lastEdited=date("now") WHERE label=?',
+            [website, username, encryptedPw.password, encryptedPw.iv,
                 document.getElementById("accountInfoHeader").innerText],
             function(err) {
-            if (err) {
-                return console.log(err.message);
-            }
-        });
+                if (err) {
+                    return console.log(err.message);
+                }
     });
-    document.getElementById("myModal3").style.display = "none";
-    await db.close();
+    document.getElementById("inputusername").disabled = true;
+    document.getElementById("inputpassword").disabled = true;
+    document.getElementById("inputwebsite").disabled = true;
+    document.getElementById("btnEdited").style.display = "none";
     document.getElementById("accountInfo").innerHTML = "";
     document.getElementById("accountInfoHeader").innerHTML = "";
-    await listAccounts();
-    await getAccountInfo(label);
+    document.getElementById("editBtn").innerHTML = "";
+    /*await listAccounts();*/
+    getAccountInfo(document.getElementById("accountInfoHeader").innerText);
 }
 
 /**
@@ -194,10 +213,7 @@ async function editAccount(){
  */
 async function deleteCategory(){
     document.getElementById("categories").innerHTML = "";
-    const db = await new sqlite3.Database(localStorage.getItem("currDb"));
     await db.serialize(()=>{
-        db.run("PRAGMA cipher_compatibility = 4");
-        db.run("PRAGMA key = " + localStorage.getItem("pwd"));
         db.run('DROP TABLE ' + currTable,
             function(err) {
                 if (err) {
@@ -206,7 +222,6 @@ async function deleteCategory(){
             });
     });
     currTable = "";
-    await db.close();
     await listCategories();
     document.getElementById("accounts").innerHTML = "";
     document.getElementById("accountInfoHeader").innerHTML = "";
@@ -220,10 +235,7 @@ async function deleteCategory(){
  * deleteAccount()
  */
 async function deleteAccount(){
-    const db = await new sqlite3.Database(localStorage.getItem("currDb"));
     await db.serialize(()=>{
-        db.run("PRAGMA cipher_compatibility = 4");
-        db.run("PRAGMA key = " + localStorage.getItem("pwd"));
         db.run('DELETE FROM ' + currTable + ' WHERE label=?',
             document.getElementById("accountInfoHeader").innerText,
             function(err) {
@@ -233,10 +245,11 @@ async function deleteAccount(){
             });
     });
     currTable = "";
-    await db.close();
-    await listAccounts();
     document.getElementById("accountInfoHeader").innerHTML = "";
     document.getElementById("accountInfo").innerHTML = "";
+    document.getElementById("accounts").innerHTML = "";
+    await listAccounts();
+
 }
 
 /**
@@ -264,62 +277,4 @@ function decryptPw(encryption){
     const decipher = crypto.createDecipheriv('aes-256-ctr', Buffer.from(secretKey), Buffer.from(encryption.iv, 'hex'));
     const decryptedPw = Buffer.concat([decipher.update(Buffer.from(encryption.password, 'hex')), decipher.final()]);
     return decryptedPw.toString();
-}
-
-
-
-//-----------------MODAL BOXES-----------------//
-
-// Get the modal for addCategory method
-const modal = document.getElementById("myModal");
-// Get the button that opens the modal
-const btn = document.getElementById("addCategoryBtn");
-// Get the <span> element that closes the modal
-const span = document.getElementsByClassName("close")[0];
-// When the user clicks on the button, open the modal
-btn.onclick = function() {
-    modal.style.display = "block";
-}
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-    modal.style.display = "none";
-}
-
-// Get the modal for addAccount method
-const modal2 = document.getElementById("myModal2");
-// Get the button that opens the modal
-const btn2 = document.getElementById("addAccountBtn");
-// Get the <span> element that closes the modal
-const span2 = document.getElementsByClassName("close")[1];
-// When the user clicks on the button, open the modal
-btn2.onclick = function() {
-    modal2.style.display = "block";
-}
-// When the user clicks on <span> (x), close the modal
-span2.onclick = function() {
-    modal2.style.display = "none";
-}
-
-// Get the modal for editAccount method
-const modal3 = document.getElementById("myModal3");
-// Get the button that opens the modal
-const btn3 = document.getElementById("editAccountBtn");
-// Get the <span> element that closes the modal
-const span3 = document.getElementsByClassName("close")[2];
-// When the user clicks on the button, open the modal
-btn3.onclick = function() {
-    modal3.style.display = "block";
-}
-// When the user clicks on <span> (x), close the modal
-span3.onclick = function() {
-    modal3.style.display = "none";
-}
-
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-    if (event.target === modal2 || event.target === modal || event.target === modal3) {
-        modal2.style.display = "none";
-        modal.style.display = "none";
-        modal3.style.display = "none";
-    }
 }

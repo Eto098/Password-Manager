@@ -14,7 +14,14 @@ html {
 body {
     color: #DEE2E6 !important;
 }
-
+input.pass2{
+    color: #DEE2E6 !important;
+    background-color: #343A40 !important;
+    border:none !important;
+    width: 100% !important;
+    font-family: code;
+    text-align: center;
+}
 div#a {
   float: left;
   width: 20%;

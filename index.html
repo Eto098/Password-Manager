@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
@@ -9,95 +9,107 @@
     <link rel="stylesheet" href="./css/show-password-toggle.css">
     <title>Password Manager</title>
     <style>
-          /* The Modal (background) */
-          .modal {
-              display: none; /* Hidden by default */
-              position: fixed; /* Stay in place */
-              z-index: 1; /* Sit on top */
-              padding-top: 100px; /* Location of the box */
-              left: 0;
-              top: 0;
-              width: 100%; /* Full width */
-              height: 100%; /* Full height */
-              overflow: auto; /* Enable scroll if needed */
-              background-color: rgb(0,0,0); /* Fallback color */
-              background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-          }
+        /* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 150px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
 
-          /* Modal Content */
-          .modal-content {
-              background-color: #fefefe;
-              margin: auto;
-              padding: 20px;
-              border: 1px solid #888;
-              width: 80%;
-          }
+        /* Modal Content */
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: none;
+            width: 40%;
+        }
 
-          /* The Close Button */
-          .close {
-              color: #aaaaaa;
-              float: right;
-              font-size: 28px;
-              font-weight: bold;
-          }
+        /* The Close Button */
+        .close {
+            color: #aaaaaa;
+            float: right;
+            font-size: 25px;
+            font-weight: bold;
+        }
 
-          .close:hover,
-          .close:focus {
-              color: #000;
-              text-decoration: none;
-              cursor: pointer;
-          }
-      </style>
-  </head>
-  <body>
-
-      <div id="login">
-
-             <div class="mb-3">
-
-                <div class="fileUpload image-upload logo">
-                    <a onclick="browseBtn()"><img src="./media/privacy.png"/></a>
-                </div>
-
-<br>
-
-<input id="currDbName" class="upload" placeholder="Vault is not selected." disabled="disabled" />
-
-<br>
-
-                  <div class="input-group">
-                      <input type="password" onkeyup="pwChanged()" id="password" class="shadow-none form-control  pass" spellcheck="false" autocorrect="off" autocapitalize="off" required autofocus>
-                      <button id="toggle-password" type="button" class="d-none"
-                        aria-label="Show password as plain text. Warning: this will display your password on the screen." >
-                      </button>
-                  </div>
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
 
 
-                    <button onclick="openVault()" id="openVault" type="button" disabled="disabled" class="btn btn-light btn-sm login">Unlock Vault</button>
-                     <br><br><br><br>
-                      <button id="createVault" type="button" class="btn btn-outline-light btn-sm login">New Vault</button>
+<div id="login">
 
-            </div>
+    <div class="mb-3">
 
-      </div>
-      <!-- The Modal -->
-      <div id="myModal" class="modal" style="display: none">
+        <div class="fileUpload image-upload logo">
+            <a onclick="browseBtn()"><img src="./media/privacy.png"/></a>
+        </div>
 
-          <!-- Modal content -->
-          <div class="modal-content">
-              <span class="close">&times;</span>
-              <button onclick="saveVaultFile()">Create Database File</button>
-              <br>
-              <input id="mPwd" type="password" onkeyup="pwChanged2()" placeholder="Enter Master Password"/>
-              <button onclick="showPwBtn2()"></button>
-              <br>
-              <button id="createVaultBtn" onclick="createVault()" disabled="disabled">OK</button>
-          </div>
+        <br>
 
-      </div>
-   <script src="./js/show-password-toggle.js"></script>
-   <script src="./js/bootstrap.min.js"></script>
-   <script src="./js/popper.min.js"></script>
-   <script src="./js/login.js"></script>
-  </body>
+        <input id="currDbName" class="upload" placeholder="Vault is not selected." disabled="disabled" />
+
+        <br>
+
+        <div class="input-group">
+            <input type="password" onkeyup="pwChanged()" id="password" class="shadow-none form-control  pass" spellcheck="false" autocorrect="off" autocapitalize="off" required autofocus>
+            <button id="toggle-password" type="button" class="d-none"
+                    aria-label="Show password as plain text. Warning: this will display your password on the screen." >
+            </button>
+        </div>
+
+
+        <button onclick="openVault()" id="openVault" type="button" disabled="disabled" class="btn btn-light btn-sm login">Unlock Vault</button>
+        <br><br><br><br>
+        <button id="createVault" type="button" class="btn btn-outline-light btn-sm login">New Vault</button>
+
+    </div>
+
+</div>
+
+
+<!-- The Modal -->
+
+<div id="myModal" class="modal" style="display: none">
+    <div class="input-group">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <br>
+            <button onclick="saveVaultFile()" class="btn btn-dark btn-sm">Create Database File</button>
+            <br>
+            <!--<input id="mPwd" type="password" onkeyup="pwChanged2()" placeholder="Enter Master Password"/>
+          <button onclick="showPwBtn2()" class="btn btn-dark btn-sm login"></button>-->
+
+            <input type="password" onkeyup="pwChanged2()" id="mPwd" class="shadow-none form-control  pass2" spellcheck="false" autocorrect="off" autocapitalize="off" required placeholder="Enter Master Password">
+            <button id="toggle-password" type="button" class="d-none" onclick="showPwBtn2()"
+                    aria-label="Show password as plain text. Warning: this will display your password on the screen." >
+            </button>
+
+
+            <br>
+            <button id="createVaultBtn" class="btn btn-dark btn-sm" onclick="createVault()" disabled="disabled">OK</button>
+        </div>
+    </div>
+</div>
+<script src="./js/show-password-toggle.js"></script>
+<script src="./js/bootstrap.min.js"></script>
+<script src="./js/popper.min.js"></script>
+<script src="./js/login.js"></script>
+</body>
 </html>
