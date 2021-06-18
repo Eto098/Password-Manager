@@ -87,8 +87,9 @@ async function getAccountInfo(label){
                 return console.log(err.message);
             }else{
                 result.forEach((row) => {
+                    console.log(row.label, row.username, row.password, row.website, row.lastEdited, row.createDate);
                     document.getElementById("accountInfoHeader").innerHTML = row.label;
-                        document.getElementById("editBtn").innerHTML = "<button onclick='editAccount()' type=\"button\" className=\"btn btn-outline-dark btn-sm\">~</button>";
+                    document.getElementById("editBtn").innerHTML = "<button onclick='editAccount()' type=\"button\" className=\"btn btn-outline-dark btn-sm\">~</button>";
                     document.getElementById("accountInfo").innerHTML =
                         "      <label for=\"inputEmail3\" class=\"col-sm-2 col-form-label\">Username</label>\n" +
                         "      <div class=\"col-sm-10\">\n" +
@@ -131,7 +132,7 @@ async function addCategory(){
     const category = document.getElementById("addTableName").value;
     await db.serialize(()=>{
         db.run('CREATE TABLE IF NOT EXISTS ' + category +
-            ' (label TEXT NOT NULL, username TEXT, password TEXT, iv TEXT, website TEXT, createDate DATE, lastEdited DATE)');
+            ' (label TEXT NOT NULL, username TEXT NOT NULL, password TEXT NOT NULL, iv TEXT NOT NULL, website TEXT NOT NULL, createDate DATE, lastEdited DATE)');
     });
     document.getElementById("accounts").innerHTML = "";
     document.getElementById("accountInfoHeader").innerHTML = "";
