@@ -2,7 +2,7 @@ const sqlite3 = require('@journeyapps/sqlcipher').verbose();
 const crypto = require('crypto');
 
 const secretKey = 'thsadklfjdsaklnvsdlayasdtalkgsad';
-let currTable = "accounts";
+let currTable = "Logins";
 const db = new sqlite3.Database(localStorage.getItem("currDb"));
 db.serialize(()=>{
     db.run("PRAGMA cipher_compatibility = 4");

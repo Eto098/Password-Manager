@@ -48,7 +48,7 @@ async function openVault(){
         await dbObject.serialize(()=>{
             dbObject.run("PRAGMA cipher_compatibility = 4");
             dbObject.run("PRAGMA key = " + pwd);
-            dbObject.all('SELECT * FROM accounts', async function(err) {
+            dbObject.all('SELECT * FROM Logins', async function(err) {
                 if (err) {
                     return console.log("Wrong Password");
                 }else{
@@ -122,7 +122,7 @@ async function addDb(name, password){
     await db.serialize(()=>{
         db.run("PRAGMA cipher_compatibility = 4");
         db.run("PRAGMA key = '" + password + "'");
-        db.run('CREATE TABLE IF NOT EXISTS accounts(label TEXT NOT NULL, username TEXT, password TEXT, iv TEXT, website TEXT, createDate DATE, lastEdited DATE)');
+        db.run('CREATE TABLE IF NOT EXISTS Logins(label TEXT NOT NULL, username TEXT, password TEXT, iv TEXT, website TEXT, createDate DATE, lastEdited DATE)');
     })
     await db.close();
 }
