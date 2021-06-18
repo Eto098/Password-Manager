@@ -12,7 +12,7 @@ function createWindow () {
   })
 
   //win.loadFile('index.html')
-  win.loadFile('page.html')
+  win.loadFile('index.html')
 }
 
 app.whenReady().then(createWindow)
