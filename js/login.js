@@ -63,7 +63,7 @@ async function openVault(){
                         },
                     });
                     await vaultWindow.loadURL(url.format({
-                        pathname: path.join(__dirname, 'vault.html'),
+                        pathname: path.join(__dirname, 'page.html'),
                         protocol: 'file:',
                         slashes: true
                     }));

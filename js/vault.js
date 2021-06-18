@@ -24,8 +24,10 @@ async function listCategories(){
             categoryElement.type = "text";
             categoryElement.innerHTML = "<div class='category'>"+table.name+"</div>"
             categoryElement.addEventListener('click', function(){
-                currTable = table.name;
-                listAccounts();
+                for(let i = 0; i < document.getElementsByClassName("category").length; i++){
+                    document.getElementsByClassName("category")[i].classList.remove("active");
+                }
+                this.classList.add("active");
             });
             document.getElementById("categories").appendChild(categoryElement);
 
@@ -41,7 +43,6 @@ async function listCategories(){
  * listAccounts()
  */
 async function listAccounts(){
-    document.getElementById("accounts").innerHTML = "";
     const db = await new sqlite3.Database(localStorage.getItem("currDb"));
     await db.serialize(()=>{
         db.run("PRAGMA cipher_compatibility = 4");
@@ -56,6 +57,10 @@ async function listAccounts(){
                     accountsElement.type = "text";
                     accountsElement.innerHTML = "<div class='account'>"+row.label+"</div>"
                     accountsElement.addEventListener('click', async function(){
+                        for(let i = 0; i < document.getElementsByClassName("account").length; i++){
+                            document.getElementsByClassName("category")[i].classList.remove("active");
+                        }
+                        this.classList.add("active");
                         await getAccountInfo(row.label)
                     });
                     document.getElementById("accounts").appendChild(accountsElement);
