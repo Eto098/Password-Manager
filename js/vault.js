@@ -137,6 +137,7 @@ async function addCategory(){
     document.getElementById("accountInfoHeader").innerHTML = "";
     document.getElementById("accountInfo").innerHTML = "";
     document.getElementById("categories").innerHTML = "";
+    document.getElementById("addTableName").value = "";
     await listCategories();
 }
 
@@ -161,6 +162,10 @@ async function addAccount(){
         });
     });
     document.getElementById("accounts").innerHTML = "";
+    document.getElementById("recipient-label").value = "";
+    document.getElementById("recipient-username").value = "";
+    document.getElementById("recipient-password").value = "";
+    document.getElementById("recipient-website").value = "";
     await listAccounts();
 }
 
@@ -192,6 +197,7 @@ async function btnEdited(){
                     return console.log(err.message);
                 }
     });
+    let label = document.getElementById("accountInfoHeader").innerText;
     document.getElementById("inputusername").disabled = true;
     document.getElementById("inputpassword").disabled = true;
     document.getElementById("inputwebsite").disabled = true;
@@ -199,8 +205,7 @@ async function btnEdited(){
     document.getElementById("accountInfo").innerHTML = "";
     document.getElementById("accountInfoHeader").innerHTML = "";
     document.getElementById("editBtn").innerHTML = "";
-    /*await listAccounts();*/
-    getAccountInfo(document.getElementById("accountInfoHeader").innerText);
+    await getAccountInfo(label);
 }
 
 /**
@@ -224,6 +229,7 @@ async function deleteCategory(){
     document.getElementById("accounts").innerHTML = "";
     document.getElementById("accountInfoHeader").innerHTML = "";
     document.getElementById("accountInfo").innerHTML = "";
+    document.getElementById("editBtn").innerHTML = "";
 }
 
 /**
@@ -242,10 +248,10 @@ async function deleteAccount(){
                 }
             });
     });
-    currTable = "";
     document.getElementById("accountInfoHeader").innerHTML = "";
     document.getElementById("accountInfo").innerHTML = "";
     document.getElementById("accounts").innerHTML = "";
+    document.getElementById("editBtn").innerHTML = "";
     await listAccounts();
 
 }
