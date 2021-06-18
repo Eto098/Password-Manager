@@ -19,10 +19,8 @@ listAccounts();
 async function listCategories(){
     await db.serialize(()=>{
         db.each("select name from sqlite_master where type='table'", function (err, table) {
-
             const categoryElement = document.createElement('a');
             categoryElement.type = "text";
-            categoryElement.attributes
             categoryElement.classList.add("category");
             categoryElement.innerHTML = "<div>"+table.name+"</div>"
             categoryElement.addEventListener('click', function(){
