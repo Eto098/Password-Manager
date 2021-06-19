@@ -135,13 +135,11 @@ async function addCategory(){
         db.run('CREATE TABLE IF NOT EXISTS ' + category +
             ' (label TEXT NOT NULL, username TEXT, password TEXT NOT NULL, iv TEXT NOT NULL, website TEXT, createDate DATE, lastEdited DATE)');
     });
-    $("newCategory").modal("hide");
     document.getElementById("accounts").innerHTML = "";
     document.getElementById("accountInfoHeader").innerHTML = "";
     document.getElementById("accountInfo").innerHTML = "";
     document.getElementById("categories").innerHTML = "";
     document.getElementById("addTableName").value = "";
-    document.getElementById("newCategory").modal('hide');
     await listCategories();
 }
 
