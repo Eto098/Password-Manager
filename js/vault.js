@@ -3,10 +3,12 @@ const crypto = require('crypto');
 
 const secretKey = 'thsadklfjdsaklnvsdlayasdtalkgsad';
 let currTable = "Logins";
+
 const db = new sqlite3.Database(localStorage.getItem("currDb"));
 db.serialize(()=>{
     db.run("PRAGMA cipher_compatibility = 4");
     db.run("PRAGMA key = " + localStorage.getItem("pwd"));});
+
 listCategories();
 listAccounts();
 
@@ -25,13 +27,12 @@ async function listCategories(){
             categoryElement.innerHTML = "<div>"+table.name+"</div>"
             categoryElement.addEventListener('click', function(){
                 for(let i = 0; i < document.getElementsByClassName("category").length; i++){
-                    console.log(1,document.getElementsByClassName("category")[i]);
-                    console.log(1,document.getElementsByClassName("category")[i].classList);
                     document.getElementsByClassName("category")[i].classList.remove("active");
                 }
-                console.log(this);
+                document.getElementById("accountInfo").innerHTML = "";
+                document.getElementById("accountInfoHeader").innerHTML = "";
+                document.getElementById("editBtn").innerHTML = "";
                 this.classList.add("active");
-                console.log(this.classList.contains("active"));
                 currTable = table.name;
                 listAccounts();
             });
@@ -87,7 +88,6 @@ async function getAccountInfo(label){
                 return console.log(err.message);
             }else{
                 result.forEach((row) => {
-                    console.log(row.label, row.username, row.password, row.website, row.lastEdited, row.createDate);
                     document.getElementById("accountInfoHeader").innerHTML = row.label;
                     document.getElementById("editBtn").innerHTML = "<button onclick='editAccount()' type=\"button\" className=\"btn btn-outline-dark btn-sm\">~</button>";
                     document.getElementById("accountInfo").innerHTML =
@@ -130,15 +130,18 @@ async function getAccountInfo(label){
  */
 async function addCategory(){
     const category = document.getElementById("addTableName").value;
+    if(!category) return alert("You Must Enter A Category Name");
     await db.serialize(()=>{
         db.run('CREATE TABLE IF NOT EXISTS ' + category +
-            ' (label TEXT NOT NULL, username TEXT NOT NULL, password TEXT NOT NULL, iv TEXT NOT NULL, website TEXT NOT NULL, createDate DATE, lastEdited DATE)');
+            ' (label TEXT NOT NULL, username TEXT, password TEXT NOT NULL, iv TEXT NOT NULL, website TEXT, createDate DATE, lastEdited DATE)');
     });
+    $("newCategory").modal("hide");
     document.getElementById("accounts").innerHTML = "";
     document.getElementById("accountInfoHeader").innerHTML = "";
     document.getElementById("accountInfo").innerHTML = "";
     document.getElementById("categories").innerHTML = "";
     document.getElementById("addTableName").value = "";
+    document.getElementById("newCategory").modal('hide');
     await listCategories();
 }
 
@@ -149,10 +152,18 @@ async function addCategory(){
  * addAccount()
  */
 async function addAccount(){
-    let label = document.getElementById("recipient-label").value;
-    let password = document.getElementById("recipient-password").value;
-    let username = document.getElementById("recipient-username").value;
-    let website = document.getElementById("recipient-website").value;
+    let label = document.getElementById("recipient-label").value === "" ? null : document.getElementById("recipient-label").value;
+    if(!label){
+        console.log("null");
+        return;
+    }
+    let password = document.getElementById("recipient-password").value === "" ? null : document.getElementById("recipient-password").value;
+    if(!password){
+        console.log("null");
+        return;
+    }
+    let username = document.getElementById("recipient-username").value === "" ? null : document.getElementById("recipient-username").value;
+    let website = document.getElementById("recipient-website").value === "" ? null : document.getElementById("recipient-website").value;
     const encryptedPw = encryptPw(password);
     await db.serialize(()=>{
         db.run('INSERT INTO '+currTable+' VALUES(?,?,?,?,?,date("now"),date("now"))',
@@ -168,6 +179,7 @@ async function addAccount(){
     document.getElementById("recipient-password").value = "";
     document.getElementById("recipient-website").value = "";
     await listAccounts();
+    await getAccountInfo(label);
 }
 
 /**
@@ -184,9 +196,10 @@ function editAccount(){
 }
 
 async function btnEdited(){
-    let website = document.getElementById("inputwebsite").value;
-    let username = document.getElementById("inputusername").value;
-    let password = document.getElementById("inputpassword").value;
+    let password = document.getElementById("inputpassword").value === "" ? null : document.getElementById("inputpassword").value;
+    if(!password) return alert("You Must Enter A Password");
+    let username = document.getElementById("inputusername").value === "" ? null : document.getElementById("inputusername").value;
+    let website = document.getElementById("inputwebsite").value === "" ? null : document.getElementById("inputwebsite").value;
     const encryptedPw = encryptPw(password);
 
         db.run('UPDATE '+currTable+

@@ -1,6 +1,6 @@
 const sqlite3 = require('@journeyapps/sqlcipher').verbose();
-const {dialog, BrowserWindow} = require('electron').remote;
-const {basename} = require('path');
+const { dialog, BrowserWindow } = require('electron').remote;
+const { basename } = require('path');
 const url = require('url');
 const path = require('path');
 
@@ -81,8 +81,6 @@ async function createVault(){
     const password = document.getElementById("mPwd").value;
     localStorage.setItem("currDb", name);
     document.getElementById("currDbName").value = basename(name)
-    console.log(name);
-    console.log(password);
     await addDb(name, password);
     localStorage.removeItem("addDbName");
     document.getElementById("myModal").style.display = "none";
@@ -116,18 +114,14 @@ function showPwBtn2(){
     }
 }
 async function addDb(name, password){
-    console.log(name);
-    console.log(password);
     const db = await new sqlite3.Database(name);
     await db.serialize(()=>{
         db.run("PRAGMA cipher_compatibility = 4");
         db.run("PRAGMA key = '" + password + "'");
-        db.run('CREATE TABLE IF NOT EXISTS Logins(label TEXT NOT NULL, username TEXT NOT NULL, password TEXT NOT NULL, iv TEXT NOT NULL, website TEXT NOT NULL, createDate DATE, lastEdited DATE)');
+        db.run('CREATE TABLE IF NOT EXISTS Logins(label TEXT NOT NULL, username TEXT, password TEXT NOT NULL, iv TEXT NOT NULL, website TEXT, createDate DATE, lastEdited DATE)');
     })
     await db.close();
 }
-
-
 
 
 // Get the modal for createVault method
