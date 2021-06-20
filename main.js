@@ -15,6 +15,7 @@ app.on('ready', () => {
             contextIsolation: false,
             enableRemoteModule: true,
         },
+        icon: "./media/privacyIcon.png"
     });
     mainWindow.loadURL(url.format({
         pathname: path.join(__dirname, 'index.html'),
