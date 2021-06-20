@@ -61,6 +61,7 @@ async function openVault(){
                             contextIsolation: false,
                             enableRemoteModule: true,
                         },
+                        icon: "./media/privacyIcon.png"
                     });
                     await vaultWindow.loadURL(url.format({
                         pathname: path.join(__dirname, 'page.html'),

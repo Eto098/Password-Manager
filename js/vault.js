@@ -4,13 +4,16 @@ const crypto = require('crypto');
 const secretKey = 'thsadklfjdsaklnvsdlayasdtalkgsad';
 let currTable = "Logins";
 
+
 const db = new sqlite3.Database(localStorage.getItem("currDb"));
 db.serialize(()=>{
     db.run("PRAGMA cipher_compatibility = 4");
     db.run("PRAGMA key = " + localStorage.getItem("pwd"));});
-
+setTimeout(function(){ document.getElementById("categories").firstElementChild.classList.add("active") }, 500);
 listCategories();
 listAccounts();
+
+
 
 /**
  * @desc lists all the table names inside the sqlite3 database into the HTML element with id of 'categories'
@@ -37,7 +40,6 @@ async function listCategories(){
                 listAccounts();
             });
             document.getElementById("categories").appendChild(categoryElement);
-
         });
     });
 }
@@ -89,7 +91,7 @@ async function getAccountInfo(label){
             }else{
                 result.forEach((row) => {
                     document.getElementById("accountInfoHeader").innerHTML = row.label;
-                    document.getElementById("editBtn").innerHTML = "<button onclick='editAccount()' type=\"button\" className=\"btn btn-outline-dark btn-sm\">~</button>";
+                    document.getElementById("editBtn").innerHTML = "<button onclick='editAccount()' type=\"button\" class=\"btn btn-outline-dark btn-sm\" style='border:solid'>~</button>";
                     document.getElementById("accountInfo").innerHTML =
                         "      <label for=\"inputEmail3\" class=\"col-sm-2 col-form-label\">Username</label>\n" +
                         "      <div class=\"col-sm-10\">\n" +
@@ -143,8 +145,10 @@ async function addCategory(){
     document.getElementById("accounts").innerHTML = "";
     document.getElementById("accountInfoHeader").innerHTML = "";
     document.getElementById("accountInfo").innerHTML = "";
+    document.getElementById("editBtn").innerHTML = "";
     document.getElementById("categories").innerHTML = "";
     document.getElementById("addTableName").value = "";
+    document.getElementById("editBtn").value = "";
     await listCategories();
 }
 
