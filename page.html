@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="./css/style.css">
   <link rel="stylesheet" href="./css/bootstrap.min.css">
   <title>Password Manager</title>
+
 </head>
 
 <body>
@@ -37,13 +38,13 @@
           <form>
             <div class="mb-3">
               <label for="addTableName" class="col-form-label">Name:</label>
-              <input type="text" class="form-control" id="addTableName">
+              <input type="text" class="form-control" id="addTableName" onkeyup="addCategoryInput()">
             </div>
           </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button onclick="addCategory()" type="button" class="btn btn-primary">Create Category</button>
+          <button id="addCategoryBtn" onclick="addCategory()" type="button" class="btn btn-primary" data-bs-dismiss="modal" disabled="disabled">Create Category</button>
         </div>
       </div>
     </div>
@@ -77,7 +78,7 @@
           <form>
             <div class="mb-3">
               <label for="recipient-label" class="col-form-label">Title:</label>
-              <input type="text" class="form-control" id="recipient-label">
+              <input type="text" class="form-control" id="recipient-label" onkeyup="addAccInput()">
             </div>
             <div class="mb-3">
               <label for="recipient-username" class="col-form-label">Username:</label>
@@ -85,8 +86,7 @@
             </div>
             <div class="mb-3">
               <label for="recipient-password" class="col-form-label">Password:</label>
-              <label for="recipient-password" class="col-form-label">Password:</label>
-              <input type="text" class="form-control" id="recipient-password">
+              <input type="text" class="form-control" id="recipient-password" onkeyup="addAccInput()">
             </div>
             <div class="mb-3">
               <label for="recipient-website" class="col-form-label">Website:</label>
@@ -96,7 +96,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="addAccount()">Create Account</button>
+          <button id="addAccBtn" type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="addAccount()" disabled="disabled">Create Account</button>
         </div>
       </div>
     </div>

@@ -48,7 +48,7 @@ async function openVault(){
         await dbObject.serialize(()=>{
             dbObject.run("PRAGMA cipher_compatibility = 4");
             dbObject.run("PRAGMA key = " + pwd);
-            dbObject.all('SELECT * FROM Logins', async function(err) {
+            dbObject.all('select name from sqlite_master where type=\'table\'', async function(err) {
                 if (err) {
                     return console.log("Wrong Password");
                 }else{

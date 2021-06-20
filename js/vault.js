@@ -122,6 +122,11 @@ async function getAccountInfo(label){
     });
 }
 
+function addCategoryInput(){
+    document.getElementById("addCategoryBtn").disabled =
+        !document.getElementById("addTableName").value;
+}
+
 /**
  * @desc adds a table with inputted name into sqlite3 database and refreshes the related HTML elements
  * @returns {Promise<void>}
@@ -141,6 +146,13 @@ async function addCategory(){
     document.getElementById("categories").innerHTML = "";
     document.getElementById("addTableName").value = "";
     await listCategories();
+}
+
+function addAccInput(){
+    document.getElementById("addAccBtn").disabled =
+        !(document.getElementById("recipient-password").value &&
+            document.getElementById("recipient-label").value);
+
 }
 
 /**
